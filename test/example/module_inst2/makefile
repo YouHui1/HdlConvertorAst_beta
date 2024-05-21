@@ -7,7 +7,7 @@ SRC_DIR = src
 BIN_DIR = bin
 
 # 定义源文件，包括 dut 和 testbench 文件
-DUT_FILE = $(SRC_DIR)/_7458.v
+DUT_FILE = $(SRC_DIR)/module_inst2.v
 TB_FILE = $(SRC_DIR)/testbench.v
 
 # 定义仿真的顶层模块（这里假设顶层模块是 testbench）

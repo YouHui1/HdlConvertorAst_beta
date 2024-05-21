@@ -50,7 +50,7 @@ def testone(path):
 # testone('_7458')
 # testone('normal')
 # testone('module_inst')
-# testone('vector')
+testone('vector')
 # testone('alu')
 
 def testall():
@@ -86,4 +86,4 @@ def testall():
             tv.visit_HdlContext(res)
 
 
-testall()
+# testall()

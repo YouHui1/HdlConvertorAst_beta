@@ -158,3 +158,10 @@ def get_width_msg(port):
         return f"{a} - {b} + 1"
     else:
         return '1'
+
+def extract_last_bracket_content(input_string):
+    matches = re.findall(r'\[(.*?)\]', input_string)
+    if matches:
+        return matches[-1]
+    else:
+        return None

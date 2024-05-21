@@ -20,7 +20,7 @@ module dut (
         //   arr[0] = 8'B0;
         // end
 
-        arr[0][1:0] = a;
+        arr[0] = a;
         arr[1] = b;
         arr[2] = a + b;
         arr[3] = a - b;

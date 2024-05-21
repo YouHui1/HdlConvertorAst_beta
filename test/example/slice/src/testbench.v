@@ -28,7 +28,7 @@ module tb_dut();
 
     // Display output for each test case
     initial begin
-        #0;
+        // #0;
         forever begin
             #10 $display("data_in = %b, slice_plus = %b, slice_minus = %b", data_in, slice_plus, slice_minus);
         end

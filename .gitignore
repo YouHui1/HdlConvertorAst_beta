@@ -1,2 +1,3 @@
 .vscode
 hdlConvertor
+test/example/*/dst/__pycache__

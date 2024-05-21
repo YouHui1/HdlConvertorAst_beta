@@ -11,7 +11,7 @@ def ALU (
 ):
 
     @always(io_input1, io_input2, io_function)
-    def seq_0():
+    def seq_0(): 
         if io_function == 0:
             io_output.next = io_input1 + io_input2
         elif io_function == 1:

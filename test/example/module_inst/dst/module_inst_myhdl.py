@@ -62,17 +62,17 @@ def top_module (
     def assign_2():
         data_out.next[2] = or_data
     uut_inverter = inverter(
-        a=data_in[0],
+        a=data_in(0),
         b=not_data
     )
     uut_and_gate = and_gate(
-        a=data_in[0],
-        b=data_in[1],
+        a=data_in(0),
+        b=data_in(1),
         c=and_data
     )
     uut_or_gate = or_gate(
-        a=data_in[0],
-        b=data_in[1],
+        a=data_in(0),
+        b=data_in(1),
         c=or_data
     )
     return instances()

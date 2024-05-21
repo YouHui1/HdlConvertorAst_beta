@@ -41,6 +41,10 @@ module reduction_tb;
         #10;
         $display("in_vector: %b, out_and: %b, out_or: %b, out_nor: %b, out_nand: %b, out_nor: %b, out_xor: %b, out_nxor: %b", in_vector, out_and, out_or, out_nor, out_nand, out_nor, out_xor, out_nxor);
 
+        in_vector = 8'b00110010;
+        #10;
+        $display("in_vector: %b, out_and: %b, out_or: %b, out_nor: %b, out_nand: %b, out_nor: %b, out_xor: %b, out_nxor: %b", in_vector, out_and, out_or, out_nor, out_nand, out_nor, out_xor, out_nxor);
+
         // Test all ones
         in_vector = 8'b11111111;
         #10;

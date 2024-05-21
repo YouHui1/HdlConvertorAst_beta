@@ -519,33 +519,11 @@
                                 {
                                     "__class__":"HdlOp",
                                     "ops":[
+                                        "arr",
                                         {
-                                            "__class__":"HdlOp",
-                                            "ops":[
-                                                "arr",
-                                                {
-                                                    "__class__":"HdlValueInt",
-                                                    "val":"0",
-                                                    "base":10
-                                                }
-                                            ],
-                                            "fn":"INDEX"
-                                        },
-                                        {
-                                            "__class__":"HdlOp",
-                                            "ops":[
-                                                {
-                                                    "__class__":"HdlValueInt",
-                                                    "val":"1",
-                                                    "base":10
-                                                },
-                                                {
-                                                    "__class__":"HdlValueInt",
-                                                    "val":"0",
-                                                    "base":10
-                                                }
-                                            ],
-                                            "fn":"DOWNTO"
+                                            "__class__":"HdlValueInt",
+                                            "val":"0",
+                                            "base":10
                                         }
                                     ],
                                     "fn":"INDEX"

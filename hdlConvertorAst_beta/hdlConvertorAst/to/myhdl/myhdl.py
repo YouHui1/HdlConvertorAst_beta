@@ -5,7 +5,7 @@ from hdlConvertorAst.to.hdlUtils import Indent, iter_with_last
 from hdlConvertorAst.to.myhdl.stm import ToMyhdlStm
 from hdlConvertorAst.to.myhdl.utils import collect_array_dims, get_wire_t_params
 from hdlConvertorAst.to.myhdl.utils import save_port_dims, set_cur_module, search_from_dict
-from hdlConvertorAst.to.myhdl.utils import extract_numbers
+from hdlConvertorAst.to.myhdl.utils import extract_numbers, extract_last_bracket_content
 
 import io
 
@@ -148,8 +148,8 @@ class ToMyhdl(ToMyhdlStm):
                 f2 = io.StringIO()
                 self.out = f2
 
-                t, array_dims = collect_array_dims(t)
-                base_t, width, is_signed, _ = get_wire_t_params(t)
+                t_, array_dims = collect_array_dims(t)
+                base_t, width, is_signed, _ = get_wire_t_params(t_)
                 if width is not None:
                     self.visit_iHdlExpr(width)
                     width = f2.getvalue()
@@ -169,14 +169,12 @@ class ToMyhdl(ToMyhdlStm):
 
         if not var.is_const:
             w(')')
-
         if is_array:
             self.visit_type_array_part(t)
 
         w("\n")
-
         self.out = reg
-        # w = self.out.write
+        w = self.out.write
         self.out.write(f.getvalue())
         array_dims = len(array_dims)
         save_port_dims(name, width, array_dims)
@@ -191,9 +189,55 @@ class ToMyhdl(ToMyhdlStm):
             k, v = item.ops
             self.visit_iHdlExpr(k)
             w("=")
+            reg = self.out
+            f = io.StringIO()
+            self.out = f
             self.visit_iHdlExpr(v)
+
+            src = f.getvalue()
+            content = extract_last_bracket_content(src)
+            if content is None:
+                w(src)
+            else:
+                src = src.split('[')[0]
+                w(src)
+                if ':' in content:
+                    left, right = content.split(':')
+                    w('(')
+                    w(left)
+                    w(',')
+                    w(right)
+                    w(')')
+                else:
+                    w('(')
+                    w(content)
+                    w(')')
+            self.out = reg
         else:
+            self.out = f
+            self.visit_iHdlExpr(v)
+
             self.visit_iHdlExpr(item)
+
+            src = f.getvalue()
+            content = extract_last_bracket_content(src)
+            if content is None:
+                w(src)
+            else:
+                src = src.split('[')[0]
+                w(src)
+                if ':' in content:
+                    left, right = content.split(':')
+                    w('(')
+                    w(left)
+                    w(',')
+                    w(right)
+                    w(')')
+                else:
+                    w('(')
+                    w(content)
+                    w(')')
+            self.out = reg
 
     def visit_map(self, map_):
         w = self.out.write

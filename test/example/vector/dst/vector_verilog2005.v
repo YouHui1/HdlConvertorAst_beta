@@ -14,7 +14,7 @@ module dut (
     reg[15:0] vec;
     // 16位的向量
     always @(*) begin
-        arr[0][1:0] = a;
+        arr[0] = a;
         arr[1] = b;
         arr[2] = a + b;
         arr[3] = a - b;

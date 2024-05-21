@@ -1,0 +1,68 @@
+#! /usr/local/bin/vvp
+:ivl_version "11.0 (stable)" "(v11_0-132-gb2f2414f4)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "/usr/local/lib/ivl/system.vpi";
+:vpi_module "/usr/local/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/local/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/local/lib/ivl/v2005_math.vpi";
+:vpi_module "/usr/local/lib/ivl/va_math.vpi";
+S_0x60aeaa9a8f30 .scope module, "my_dut_tb" "my_dut_tb" 2 2;
+ .timescale 0 0;
+v0x60aeaa9cef40_0 .var "tb_data_in", 15 0;
+v0x60aeaa9cf030_0 .net "tb_data_out", 3 0, v0x60aeaa9cec20_0;  1 drivers
+S_0x60aeaa9ba040 .scope module, "uut" "my_dut" 2 9, 3 14 0, S_0x60aeaa9a8f30;
+ .timescale 0 0;
+    .port_info 0 /INPUT 16 "data_in";
+    .port_info 1 /OUTPUT 4 "data_out";
+v0x60aeaa9ced60_0 .net "data_in", 15 0, v0x60aeaa9cef40_0;  1 drivers
+v0x60aeaa9cee40_0 .net "data_out", 3 0, v0x60aeaa9cec20_0;  alias, 1 drivers
+L_0x60aeaa9cf120 .part v0x60aeaa9cef40_0, 0, 8;
+S_0x60aeaa9ba220 .scope module, "cal" "calculate" 3 18, 3 1 0, S_0x60aeaa9ba040;
+ .timescale 0 0;
+    .port_info 0 /INPUT 8 "data_in";
+    .port_info 1 /OUTPUT 4 "data_out";
+v0x60aeaa9ba400_0 .net "data_in", 7 0, L_0x60aeaa9cf120;  1 drivers
+v0x60aeaa9cec20_0 .var "data_out", 3 0;
+E_0x60aeaa9813d0 .event edge, v0x60aeaa9ba400_0;
+    .scope S_0x60aeaa9ba220;
+T_0 ;
+    %wait E_0x60aeaa9813d0;
+    %load/vec4 v0x60aeaa9ba400_0;
+    %parti/s 4, 4, 4;
+    %store/vec4 v0x60aeaa9cec20_0, 0, 4;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_0x60aeaa9a8f30;
+T_1 ;
+    %pushi/vec4 170, 0, 16;
+    %store/vec4 v0x60aeaa9cef40_0, 0, 16;
+    %delay 10, 0;
+    %load/vec4 v0x60aeaa9cf030_0;
+    %cmpi/e 10, 0, 4;
+    %jmp/0xz  T_1.0, 6;
+    %vpi_call 2 21 "$display", "Test passed: data_out is correctly selected." {0 0 0};
+    %jmp T_1.1;
+T_1.0 ;
+    %vpi_call 2 23 "$display", "Test failed: data_out is not correctly selected." {0 0 0};
+T_1.1 ;
+    %pushi/vec4 240, 0, 16;
+    %store/vec4 v0x60aeaa9cef40_0, 0, 16;
+    %delay 10, 0;
+    %load/vec4 v0x60aeaa9cf030_0;
+    %cmpi/e 15, 0, 4;
+    %jmp/0xz  T_1.2, 6;
+    %vpi_call 2 30 "$display", "Test passed: data_out is correctly selected after update." {0 0 0};
+    %jmp T_1.3;
+T_1.2 ;
+    %vpi_call 2 32 "$display", "Test failed: data_out is not correctly selected after update." {0 0 0};
+T_1.3 ;
+    %vpi_call 2 36 "$finish" {0 0 0};
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "src/testbench.v";
+    "src/module_inst2.v";

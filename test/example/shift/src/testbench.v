@@ -38,6 +38,12 @@ module shift_tb;
         in_vector = 8'b11111111;
         #10;
         // ... (Repeat display statements)
+        $display("in_vector: %b", in_vector);
+        $display("out_lsh: %b (Logical shift left)", out_lsh);
+        $display("out_rsh: %b (Logical shift right)", out_rsh);
+        $display("out_ash: %b (Arithmetic shift right)", out_ash);
+        $display("out_rotl: %b (Rotate left)", out_rotl);
+        $display("out_rotr: %b (Rotate right)", out_rotr);
 
         // End simulation
         $finish;

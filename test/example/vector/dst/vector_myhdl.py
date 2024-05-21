@@ -12,14 +12,14 @@ def dut (
     out5,
     out6
 ):
-    arr = Signal(modbv(0)[8:])
+    arr = [Signal(modbv(0)[8:]) for _ in range(4)]
     # 4x8位的数组
     vec = Signal(modbv(0)[16:])
 
     # 16位的向量
     @always_comb
     def comb_0(): 
-        arr[0].next[1 + 1:0] = a
+        arr[0].next = a
         arr[1].next = b
         arr[2].next = a + b
         arr[3].next = a - b

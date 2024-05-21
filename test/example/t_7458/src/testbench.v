@@ -9,7 +9,7 @@ module testbench;
     wire p2y;    // p2 的输出信号
 
     // 实例化 DUT
-    _7458 uut (
+    t_7458 uut (
         .p1a(p1[0]), .p1b(p1[1]), .p1c(p1[2]), .p1d(p1[3]),
         .p1e(p1[4]), .p1f(p1[5]), .p1y(p1y),
         .p2a(p2[0]), .p2b(p2[1]), .p2c(p2[2]), .p2d(p2[3]),

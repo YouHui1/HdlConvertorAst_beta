@@ -1085,6 +1085,6 @@ class ToMyhdlExpr(ToHdlCommon):
                 # ad.fn == HdlOpType.DOWNTO/TO
                 upper = int(ad.ops[0].val)
                 lower = int(ad.ops[1].val)
-                w(f' for _ in range({abs(upper - lower)})')
+                w(f' for _ in range({abs(upper - lower)+1})')
                 # self.visit_iHdlExpr(ad)
             w("]")
