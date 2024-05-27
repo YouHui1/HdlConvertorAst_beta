@@ -5,7 +5,7 @@ from hdlConvertorAst.to.common import ToHdlCommon, ASSOCIATIVITY, \
     ASSIGN_OPERATORS_SYMBOLS_C
 from hdlConvertorAst.to.hdlUtils import iter_with_last
 from hdlConvertorAst.to.myhdl.utils import collect_array_dims, get_wire_t_params
-from hdlConvertorAst.to.myhdl.utils import filter_, search_from_dict, get_width_msg
+from hdlConvertorAst.to.myhdl.utils import filter_, search_from_dict, get_width_msg, find_colon
 import io
 
 L = ASSOCIATIVITY.L_TO_R
@@ -174,7 +174,7 @@ class ToMyhdlExpr(ToHdlCommon):
                           for k in ASSIGN_OPERATORS})
 
     GENERIC_UNARY_OPS = {
-        HdlOpType.NEG_LOG: "!",
+        HdlOpType.NEG_LOG: "not ",
         HdlOpType.NEG: "~",
         HdlOpType.MINUS_UNARY: "-",
         HdlOpType.PLUS_UNARY: "+",
@@ -511,19 +511,24 @@ class ToMyhdlExpr(ToHdlCommon):
             return
         elif op == HdlOpType.INDEX:
             op0, op1 = o.ops
-            self._visit_operand(op0, 0, o, False, False)
             w = self.out.write
-            w("[")
             reg = self.out
             f = io.StringIO()
             self.out = f
+            self._visit_operand(op0, 0, o, False, False)
+            s1 = f.getvalue()
+            w(s1)
+            w("[")
+            f.truncate(0)
+            f.seek(0)
             self._visit_operand(op1, 1, o, False, True)
-            s = f.getvalue()
-            if ':' in s:
-                a, b = s.split(':')
+            s2 = f.getvalue()
+            idx = find_colon(s2)
+            if idx is not None:
+                a, b = s2[0:idx], s2[idx+1:]
                 w(f"{a} + 1:{b}")
             else:
-                w(s)
+                w(s2)
             self.out = reg
             w("]")
             return
@@ -1083,8 +1088,18 @@ class ToMyhdlExpr(ToHdlCommon):
             w(element)
             if ad is not None:
                 # ad.fn == HdlOpType.DOWNTO/TO
-                upper = int(ad.ops[0].val)
-                lower = int(ad.ops[1].val)
-                w(f' for _ in range({abs(upper - lower)+1})')
+                f2 = io.StringIO()
+                reg = self.out
+                self.out = f2
+
+                self.visit_iHdlExpr(ad.ops[0])
+                upper = f2.getvalue()
+                f2.truncate(0)
+                f2.seek(0)
+                self.visit_iHdlExpr(ad.ops[1])
+                lower = f2.getvalue()
+                w(f' for _ in range(abs(({upper}) - ({lower}))+1)')
                 # self.visit_iHdlExpr(ad)
+
+                self.out = reg
             w("]")

@@ -12,9 +12,9 @@ def dut (
     out5,
     out6
 ):
-    arr = [Signal(modbv(0)[8:]) for _ in range(4)]
+    arr = [Signal(modbv(0)[7 + 1 - 0:]) for _ in range(abs((3) - (0))+1)]
     # 4x8位的数组
-    vec = Signal(modbv(0)[16:])
+    vec = Signal(modbv(0)[15 + 1 - 0:])
 
     # 16位的向量
     @always_comb
@@ -32,7 +32,7 @@ def dut (
     @always(clk.posedge)
     def seq_0():
         tmp = concat(a, b)
-        out6.next = tmp[8+0:0]
-        out5.next = tmp[8+8+0:8+0]
+        out6.next = tmp[7 + 1 - 0+0:0]
+        out5.next = tmp[7 + 1 - 0+7 + 1 - 0+0:7 + 1 - 0+0]
 
     return instances()

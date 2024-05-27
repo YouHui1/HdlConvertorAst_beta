@@ -203,12 +203,15 @@ class ToMyhdlStm(ToMyhdlExpr):
         #     w(o.labels[0])
         w("\n")
         with Indent(self.out):
-            for s in o.body:
-                need_semi = self.visit_iHdlStatement(s)
-                # if need_semi:
-                #     w(";\n")
-                # else:
-                w("\n")
+            if o.body == []:
+                w('pass\n')
+            else:
+                for s in o.body:
+                    need_semi = self.visit_iHdlStatement(s)
+                    # if need_semi:
+                    #     w(";\n")
+                    # else:
+                    w("\n")
         # w("end")
         # if o.in_preproc:
         #     w(" endgenerate")

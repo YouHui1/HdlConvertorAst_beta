@@ -50,8 +50,9 @@ def testone(path):
 # testone('_7458')
 # testone('normal')
 # testone('module_inst')
-testone('vector')
+# testone('vector')
 # testone('alu')
+testone('ram')
 
 def testall():
     lst = os.listdir(input_path)

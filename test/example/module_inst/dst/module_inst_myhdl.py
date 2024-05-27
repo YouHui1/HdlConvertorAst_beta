@@ -9,7 +9,7 @@ def inverter (
 
     @always_comb
     def assign_0():
-        b.next = ~a
+        b.next = not a
     return instances()
 # 模块 B：一个简单的二输入与门
 @block

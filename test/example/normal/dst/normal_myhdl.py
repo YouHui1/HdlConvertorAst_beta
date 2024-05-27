@@ -11,7 +11,7 @@ def FSM (
     S2 = 2
 ):
     # 状态机当前状态
-    current_state = Signal(modbv(0)[2:])
+    current_state = Signal(modbv(0)[1 + 1 - 0:])
 
     # 初始块，使用while循环进行状态初始化
     @instance

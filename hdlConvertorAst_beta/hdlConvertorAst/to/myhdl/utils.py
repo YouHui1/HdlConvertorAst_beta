@@ -144,13 +144,6 @@ def filter_(s):
 
     raise ValueError(f"invalid format: {s}")
 
-
-def extract_numbers(s):
-    pattern = r'(\d+):(\d+)'
-    matches = re.findall(pattern, s)
-    return matches[0]
-
-
 def get_width_msg(port):
     assert type(port) == str, f"type error: {type(port)}"
     if ':' in port:
@@ -165,3 +158,16 @@ def extract_last_bracket_content(input_string):
         return matches[-1]
     else:
         return None
+
+def find_colon(s):
+    st = []
+    for idx, c in enumerate(s):
+        if c == '[':
+            st.append('[')
+        elif c == ']':
+            st.pop()
+        elif c == ':':
+            if st == []:
+                return idx
+
+    return None

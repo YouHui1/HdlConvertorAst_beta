@@ -5,7 +5,7 @@ from hdlConvertorAst.to.hdlUtils import Indent, iter_with_last
 from hdlConvertorAst.to.myhdl.stm import ToMyhdlStm
 from hdlConvertorAst.to.myhdl.utils import collect_array_dims, get_wire_t_params
 from hdlConvertorAst.to.myhdl.utils import save_port_dims, set_cur_module, search_from_dict
-from hdlConvertorAst.to.myhdl.utils import extract_numbers, extract_last_bracket_content
+from hdlConvertorAst.to.myhdl.utils import extract_last_bracket_content
 
 import io
 
@@ -84,8 +84,8 @@ class ToMyhdl(ToMyhdlStm):
         if width is not None:
             self.visit_iHdlExpr(width)
             width = f.getvalue()
-            nums = extract_numbers(width)
-            sub = str(abs(int(nums[0]) - int(nums[1])) + 1)
+            nums = width.split(':')
+            sub = nums[0] + ' + 1' + ' - ' + nums[1]
             width = sub
         else:
             width = 1
@@ -124,9 +124,9 @@ class ToMyhdl(ToMyhdlStm):
             w("Signal(modbv(")
 
         # w(f.getvalue())
-
+        x = None
         if var.value is not None:
-            self.visit_iHdlExpr(var.value)
+            x = self.visit_iHdlExpr(var.value)
         else:
             w('0')
         w(')')
@@ -134,7 +134,10 @@ class ToMyhdl(ToMyhdlStm):
         width = 1
         array_dims = []
         if t is HdlTypeAuto:
-            w('[1:]')
+            if isinstance(x, int) and not isinstance(x, bool):
+                w(f"[{x}:]")
+            else:
+                w('[1:]')
             if self._type_requires_nettype and not var.is_const:
                 # w("wire ")
                 pass
@@ -144,28 +147,39 @@ class ToMyhdl(ToMyhdlStm):
             try:
                 if var.is_const:
                     self._type_requires_nettype = False
-                reg2 = self.out
-                f2 = io.StringIO()
-                self.out = f2
 
                 t_, array_dims = collect_array_dims(t)
-                base_t, width, is_signed, _ = get_wire_t_params(t_)
-                if width is not None:
-                    self.visit_iHdlExpr(width)
-                    width = f2.getvalue()
-                else:
+                wire_params = get_wire_t_params(t_)
+                if wire_params is None:
                     width = 1
+                    pass
+                else:
+                    reg2 = self.out
+                    f2 = io.StringIO()
+                    self.out = f2
+
+                    base_t, width, is_signed, _ = wire_params
+                    if width is not None:
+                        self.visit_iHdlExpr(width)
+                        width = f2.getvalue()
+                    else:
+                        width = 1
+
+                    nums = f2.getvalue().split(':')
+                    # print(nums, f2.getvalue(), name, width)
+                    if len(nums) == 2:
+                        sub = nums[0] + ' + 1' + ' - ' + nums[1]
+                        w(f'[{sub}:]')
+                        width = sub
+                    else:
+                        w('[1:]')
+                    self.out = reg2
 
                 is_array = len(array_dims) > 0
 
             finally:
-                self.out = reg2
                 self._type_requires_nettype = trnt
 
-                nums = extract_numbers(f2.getvalue())
-                sub = str(abs(int(nums[0]) - int(nums[1])) + 1)
-                w(f'[{sub}:]')
-                width = sub
 
         if not var.is_const:
             w(')')
