@@ -105,8 +105,7 @@ def full_handshake_tx (
         if not rst_n: 
             idle.next = 0b1
             req.next = 0b0
-            # req_data <= {(DW){1'b0}};
-            req_data.next = 0
+            req_data.next = concat(*[concat(modbv(0b0)[1:]) for _ in range(DW)])
 
         else:
             if state == STATE_IDLE:
@@ -122,8 +121,7 @@ def full_handshake_tx (
             elif state == STATE_ASSERT:
                 if ack == 0b1: 
                     req.next = 0b0
-                    # req_data <= {(DW){1'b0}};
-                    req_data.next = 0
+                    req_data.next = concat(*[concat(modbv(0b0)[1:]) for _ in range(DW)])
 
             elif state == STATE_DEASSERT:
                 if not ack:

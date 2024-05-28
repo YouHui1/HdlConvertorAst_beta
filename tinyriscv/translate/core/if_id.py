@@ -1,17 +1,17 @@
-#/*
+#/*                                                                      
 # Copyright 2019 Blue Liang, liangkangnan@163.com
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
+#                                                                         
+# Licensed under the Apache License, Version 2.0 (the "License");         
+# you may not use this file except in compliance with the License.        
+# You may obtain a copy of the License at                                 
+#                                                                         
+#     http://www.apache.org/licenses/LICENSE-2.0                          
+#                                                                         
+# Unless required by applicable law or agreed to in writing, software    
+# distributed under the License is distributed on an "AS IS" BASIS,       
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# See the License for the specific language governing permissions and     
+# limitations under the License.                                          
 # *//*
 # Copyright 2019 Blue Liang, liangkangnan@163.com
 #
@@ -38,7 +38,7 @@
 # CSR reg addr
 # common regs
 # 将指令向译码模块传递
-from utils.gen_dff import *
+from myhdl import *
 
 @block
 def if_id (
@@ -59,39 +59,11 @@ def if_id (
 ):
     hold_en = Signal(modbv(0)[1:])
     @always_comb
-    def assign_x0():
+    def assign_hold_en():
         hold_en.next = hold_flag_i >= 0b010
-
     inst = Signal(modbv(0)[31 + 1 - 0:])
-    inst_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x00000001,
-        inst_i,
-        inst,
-        DW=32
-    )
     inst_addr = Signal(modbv(0)[31 + 1 - 0:])
-    inst_addr_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x00000000,
-        inst_addr_i,
-        inst_addr,
-        DW=32
-    )
     int_flag = Signal(modbv(0)[7 + 1 - 0:])
-    int_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x00000000,
-        int_flag_i,
-        int_flag,
-        DW=8
-    )
 
     @always_comb
     def assign_0():

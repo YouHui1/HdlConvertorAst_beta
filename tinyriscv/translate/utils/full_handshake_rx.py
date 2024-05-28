@@ -96,8 +96,7 @@ def full_handshake_rx (
         if not rst_n: 
             ack.next = 0b0
             recv_rdy.next = 0b0
-            # recv_data <= {(DW){1'b0}};
-            recv_data.next = 0
+            recv_data.next = concat(*[concat(modbv(0b0)[1:]) for _ in range(DW)])
 
         else:
             if state == STATE_IDLE:
@@ -109,8 +108,8 @@ def full_handshake_rx (
 
             elif state == STATE_DEASSERT: 
                 recv_rdy.next = 0b0
-                # recv_data <= {(DW){1'b0}};
-                recv_data.next = 0
+                recv_data.next = concat(*[concat(modbv(0b0)[1:]) for _ in range(DW)])
+                # recv_data <= 0;
                 # req撤销后ack也撤销
                 if req == 0b0:
                     ack.next = 0b0

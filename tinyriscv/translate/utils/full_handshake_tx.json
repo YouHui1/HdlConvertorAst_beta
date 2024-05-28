@@ -1269,21 +1269,25 @@
                                     },
                                     {
                                         "__class__":"HdlStmAssign",
-                                        "doc":{
-                                            "__class__":"str",
-                                            "val":" req_data <= {(DW){1'b0}};\n"
-                                        },
                                         "position":[
-                                            114,
+                                            113,
                                             13,
-                                            114,
-                                            25
+                                            113,
+                                            36
                                         ],
                                         "labels":[],
                                         "src":{
-                                            "__class__":"HdlValueInt",
-                                            "val":"0",
-                                            "base":10
+                                            "__class__":"HdlOp",
+                                            "ops":[
+                                                "DW",
+                                                {
+                                                    "__class__":"HdlValueInt",
+                                                    "val":"0",
+                                                    "bits":1,
+                                                    "base":2
+                                                }
+                                            ],
+                                            "fn":"REPL_CONCAT"
                                         },
                                         "dst":"req_data",
                                         "is_blocking":false
@@ -1526,21 +1530,25 @@
                                                                     },
                                                                     {
                                                                         "__class__":"HdlStmAssign",
-                                                                        "doc":{
-                                                                            "__class__":"str",
-                                                                            "val":" req_data <= {(DW){1'b0}};\n"
-                                                                        },
                                                                         "position":[
-                                                                            133,
+                                                                            132,
                                                                             25,
-                                                                            133,
-                                                                            37
+                                                                            132,
+                                                                            48
                                                                         ],
                                                                         "labels":[],
                                                                         "src":{
-                                                                            "__class__":"HdlValueInt",
-                                                                            "val":"0",
-                                                                            "base":10
+                                                                            "__class__":"HdlOp",
+                                                                            "ops":[
+                                                                                "DW",
+                                                                                {
+                                                                                    "__class__":"HdlValueInt",
+                                                                                    "val":"0",
+                                                                                    "bits":1,
+                                                                                    "base":2
+                                                                                }
+                                                                            ],
+                                                                            "fn":"REPL_CONCAT"
                                                                         },
                                                                         "dst":"req_data",
                                                                         "is_blocking":false

@@ -47,4 +47,4 @@ def generate(DEBUG=False):
                 tv = ToMyhdl(f)
                 tv.visit_HdlContext(res)
 
-generate()
+generate(True)

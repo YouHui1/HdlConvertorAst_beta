@@ -99,8 +99,8 @@ module full_handshake_rx #(
         if (!rst_n) begin
             ack <= 1'b0;
             recv_rdy <= 1'b0;
-            // recv_data <= {(DW){1'b0}};
-            recv_data <= 0;
+            recv_data <= {(DW){1'b0}};
+            // recv_data <= 0;
         end else begin
             case (state)
                 STATE_IDLE: begin
@@ -112,8 +112,8 @@ module full_handshake_rx #(
                 end
                 STATE_DEASSERT: begin
                     recv_rdy <= 1'b0;
-                    // recv_data <= {(DW){1'b0}};
-                    recv_data <= 0;
+                    recv_data <= {(DW){1'b0}};
+                    // recv_data <= 0;
                     // req撤销后ack也撤销
                     if (req == 1'b0) begin
                         ack <= 1'b0;

@@ -1,17 +1,17 @@
-#/*
+#/*                                                                      
 # Copyright 2019 Blue Liang, liangkangnan@163.com
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
+#                                                                         
+# Licensed under the Apache License, Version 2.0 (the "License");         
+# you may not use this file except in compliance with the License.        
+# You may obtain a copy of the License at                                 
+#                                                                         
+#     http://www.apache.org/licenses/LICENSE-2.0                          
+#                                                                         
+# Unless required by applicable law or agreed to in writing, software    
+# distributed under the License is distributed on an "AS IS" BASIS,       
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# See the License for the specific language governing permissions and     
+# limitations under the License.                                          
 # *//*
 # Copyright 2019 Blue Liang, liangkangnan@163.com
 #
@@ -81,7 +81,6 @@ def div (
     div_remain = Signal(modbv(0)[31 + 1 - 0:])
     minuend = Signal(modbv(0)[31 + 1 - 0:])
     invert_result = Signal(modbv(0)[1:])
-
     op_div = Signal(modbv(0)[1:])
     @always_comb
     def assign_op_div():
@@ -126,7 +125,7 @@ def div (
     # 状态机实现
     @always(clk.posedge)
     def seq_0():
-        if rst == 0b0:
+        if rst == 0b0: 
             state.next = STATE_IDLE
             ready_o.next = 0b0
             result_o.next = 0x0
@@ -143,7 +142,7 @@ def div (
 
         else:
             if state == STATE_IDLE:
-                if start_i == 0b1:
+                if start_i == 0b1: 
                     op_r.next = op_i
                     dividend_r.next = dividend_i
                     divisor_r.next = divisor_i
@@ -151,7 +150,7 @@ def div (
                     state.next = STATE_START
                     busy_o.next = 0b1
 
-                else:
+                else: 
                     op_r.next = 0x0
                     reg_waddr_o.next = 0x0
                     dividend_r.next = 0x0
@@ -163,7 +162,7 @@ def div (
             elif state == STATE_START:
                 if start_i == 0b1:
                     # 除数为0
-                    if divisor_r == 0x0:
+                    if divisor_r == 0x0: 
                         if op_div | op_divu:
                             result_o.next = 0xffffffff
                         else:
@@ -172,16 +171,16 @@ def div (
                         state.next = STATE_IDLE
                         busy_o.next = 0b0
 
-                    else:
+                    else: 
                         busy_o.next = 0b1
                         count.next = 0x40000000
                         state.next = STATE_CALC
                         div_result.next = 0x0
                         div_remain.next = 0x0
                         # DIV和REM这两条指令是有符号数运算指令
-                        if op_div | op_rem:
+                        if op_div | op_rem: 
                             # 被除数求补码
-                            if dividend_r[31] == 0b1:
+                            if dividend_r[31] == 0b1: 
                                 dividend_r.next = dividend_invert
                                 minuend.next = dividend_invert[31]
 
@@ -199,20 +198,20 @@ def div (
                         else:
                             invert_result.next = 0b0
 
-                else:
+                else: 
                     state.next = STATE_IDLE
                     result_o.next = 0x0
                     ready_o.next = 0b0
                     busy_o.next = 0b0
 
             elif state == STATE_CALC:
-                if start_i == 0b1:
+                if start_i == 0b1: 
                     dividend_r.next = concat(dividend_r[30 + 1:0], modbv(0b0)[1:])
                     div_result.next = div_result_tmp
                     count.next = concat(modbv(0b0)[1:], count[31 + 1:1])
                     if count != 0:
                         minuend.next = concat(minuend_tmp[30 + 1:0], dividend_r[30])
-                    else:
+                    else: 
                         state.next = STATE_END
                         if minuend_ge_divisor:
                             div_remain.next = minuend_sub_res
@@ -220,14 +219,14 @@ def div (
                             div_remain.next = minuend
 
 
-                else:
+                else: 
                     state.next = STATE_IDLE
                     result_o.next = 0x0
                     ready_o.next = 0b0
                     busy_o.next = 0b0
 
             elif state == STATE_END:
-                if start_i == 0b1:
+                if start_i == 0b1: 
                     ready_o.next = 0b1
                     state.next = STATE_IDLE
                     busy_o.next = 0b0
@@ -242,7 +241,7 @@ def div (
                         else:
                             result_o.next = div_remain
 
-                else:
+                else: 
                     state.next = STATE_IDLE
                     result_o.next = 0x0
                     ready_o.next = 0b0

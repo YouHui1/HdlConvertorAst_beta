@@ -1,17 +1,17 @@
-#/*
+#/*                                                                      
 # Copyright 2019 Blue Liang, liangkangnan@163.com
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
+#                                                                         
+# Licensed under the Apache License, Version 2.0 (the "License");         
+# you may not use this file except in compliance with the License.        
+# You may obtain a copy of the License at                                 
+#                                                                         
+#     http://www.apache.org/licenses/LICENSE-2.0                          
+#                                                                         
+# Unless required by applicable law or agreed to in writing, software    
+# distributed under the License is distributed on an "AS IS" BASIS,       
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# See the License for the specific language governing permissions and     
+# limitations under the License.                                          
 # *//*
 # Copyright 2019 Blue Liang, liangkangnan@163.com
 #
@@ -222,10 +222,10 @@ def ex (
         mul_temp_invert.next = ~mul_temp + 1
     @always_comb
     def assign_18():
-        mem_raddr_index.next = reg1_rdata_i + concat(*[inst_i[31] for _ in range(20)], inst_i[32:20]) & 0b11
+        mem_raddr_index.next = reg1_rdata_i + concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20]) & 0b11
     @always_comb
     def assign_19():
-        mem_waddr_index.next = reg1_rdata_i + concat(*[inst_i[31] for _ in range(20)], inst_i[31 + 1:25], inst_i[11 + 1:7]) & 0b11
+        mem_waddr_index.next = reg1_rdata_i + concat(concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:25]), inst_i[11 + 1:7]) & 0b11
     @always_comb
     def assign_20():
         div_start_o.next = 0b0 if (int_assert_i == 0b1) else div_start
@@ -235,7 +235,7 @@ def ex (
     @always_comb
     def assign_22():
         # 响应中断时不写通用寄存器
-        reg_we_o.next = 0b0 if (int_assert_i == 0b1) else (reg_we or div_we)
+        reg_we_o.next = 0b0 if (int_assert_i == 0b1) else reg_we or div_we
     @always_comb
     def assign_23():
         reg_waddr_o.next = reg_waddr | div_waddr
@@ -255,7 +255,7 @@ def ex (
         jump_flag_o.next = jump_flag or div_jump_flag or (0b1 if (int_assert_i == 0b1) else 0b0)
     @always_comb
     def assign_28():
-        jump_addr_o.next = int_addr_i if (int_assert_i == 0b1) else (jump_addr | div_jump_addr)
+        jump_addr_o.next = int_addr_i if (int_assert_i == 0b1) else jump_addr | div_jump_addr
     @always_comb
     def assign_29():
         # 响应中断时不写CSR寄存器
@@ -267,91 +267,91 @@ def ex (
     @always_comb
     def comb_0():
         if opcode == 0b0110011 and funct7 == 0b0000001:
-            if funct3 == 0b000:
+            if funct3 == 0b000: 
                 mul_op1.next = reg1_rdata_i
                 mul_op2.next = reg2_rdata_i
 
-            elif funct3 == 0b011:
+            elif funct3 == 0b011: 
                 mul_op1.next = reg1_rdata_i
                 mul_op2.next = reg2_rdata_i
 
-            elif funct3 == 0b010:
+            elif funct3 == 0b010: 
                 mul_op1.next = reg1_data_invert if (reg1_rdata_i[31] == 0b1) else reg1_rdata_i
                 mul_op2.next = reg2_rdata_i
 
-            elif funct3 == 0b001:
+            elif funct3 == 0b001: 
                 mul_op1.next = reg1_data_invert if (reg1_rdata_i[31] == 0b1) else reg1_rdata_i
                 mul_op2.next = reg2_data_invert if (reg2_rdata_i[31] == 0b1) else reg2_rdata_i
 
-            else:
+            else: 
                 mul_op1.next = reg1_rdata_i
                 mul_op2.next = reg2_rdata_i
 
-        else:
+        else: 
             mul_op1.next = reg1_rdata_i
             mul_op2.next = reg2_rdata_i
 
     # 处理除法指令
     @always_comb
-    def comb_1():
+    def comb_1(): 
         div_dividend_o.next = reg1_rdata_i
         div_divisor_o.next = reg2_rdata_i
         div_op_o.next = funct3
         div_reg_waddr_o.next = reg_waddr_i
-        if opcode == 0b0110011 and funct7 == 0b0000001:
+        if opcode == 0b0110011 and funct7 == 0b0000001: 
             div_we.next = 0b0
             div_wdata.next = 0x0
             div_waddr.next = 0x0
-            if funct3 == 0b100:
+            if funct3 == 0b100: 
                 div_start.next = 0b1
                 div_jump_flag.next = 0b1
                 div_hold_flag.next = 0b1
                 div_jump_addr.next = op1_jump_add_op2_jump_res
 
-            elif funct3 == 0b101:
+            elif funct3 == 0b101: 
                 div_start.next = 0b1
                 div_jump_flag.next = 0b1
                 div_hold_flag.next = 0b1
                 div_jump_addr.next = op1_jump_add_op2_jump_res
 
-            elif funct3 == 0b110:
+            elif funct3 == 0b110: 
                 div_start.next = 0b1
                 div_jump_flag.next = 0b1
                 div_hold_flag.next = 0b1
                 div_jump_addr.next = op1_jump_add_op2_jump_res
 
-            elif funct3 == 0b111:
+            elif funct3 == 0b111: 
                 div_start.next = 0b1
                 div_jump_flag.next = 0b1
                 div_hold_flag.next = 0b1
                 div_jump_addr.next = op1_jump_add_op2_jump_res
 
-            else:
+            else: 
                 div_start.next = 0b0
                 div_jump_flag.next = 0b0
                 div_hold_flag.next = 0b0
                 div_jump_addr.next = 0x0
 
 
-        else:
+        else: 
             div_jump_flag.next = 0b0
             div_jump_addr.next = 0x0
-            if div_busy_i == 0b1:
+            if div_busy_i == 0b1: 
                 div_start.next = 0b1
                 div_we.next = 0b0
                 div_wdata.next = 0x0
                 div_waddr.next = 0x0
                 div_hold_flag.next = 0b1
 
-            else:
+            else: 
                 div_start.next = 0b0
                 div_hold_flag.next = 0b0
-                if div_ready_i == 0b1:
+                if div_ready_i == 0b1: 
                     div_wdata.next = div_result_i
                     div_waddr.next = div_reg_waddr_i
                     div_we.next = 0b1
 
-                else:
+                else: 
                     div_we.next = 0b0
                     div_wdata.next = 0x0
                     div_waddr.next = 0x0
@@ -361,13 +361,13 @@ def ex (
 
     # 执行
     @always_comb
-    def comb_2():
+    def comb_2(): 
         reg_we.next = reg_we_i
         reg_waddr.next = reg_waddr_i
         mem_req.next = 0b0
         csr_wdata_o.next = 0x0
         if opcode == 0b0010011:
-            if funct3 == 0b000:
+            if funct3 == 0b000: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -377,7 +377,7 @@ def ex (
                 mem_we.next = 0b0
                 reg_wdata.next = op1_add_op2_res
 
-            elif funct3 == 0b010:
+            elif funct3 == 0b010: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -385,9 +385,9 @@ def ex (
                 mem_raddr_o.next = 0x0
                 mem_waddr_o.next = 0x0
                 mem_we.next = 0b0
-                reg_wdata.next = concat(*[modbv(~op1_ge_op2_signed)[1:] for _ in range(32)]) & 0x1
+                reg_wdata.next = concat(*[concat(modbv(~op1_ge_op2_signed)[len(op1_ge_op2_signed):]) for _ in range(32)]) & 0x1
 
-            elif funct3 == 0b011:
+            elif funct3 == 0b011: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -395,9 +395,9 @@ def ex (
                 mem_raddr_o.next = 0x0
                 mem_waddr_o.next = 0x0
                 mem_we.next = 0b0
-                reg_wdata.next = concat(*[modbv(~op1_ge_op2_unsigned)[1:] for _ in range(32)]) & 0x1
+                reg_wdata.next = concat(*[concat(modbv(~op1_ge_op2_unsigned)[len(op1_ge_op2_unsigned):]) for _ in range(32)]) & 0x1
 
-            elif funct3 == 0b100:
+            elif funct3 == 0b100: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -407,7 +407,7 @@ def ex (
                 mem_we.next = 0b0
                 reg_wdata.next = op1_i ^ op2_i
 
-            elif funct3 == 0b110:
+            elif funct3 == 0b110: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -417,7 +417,7 @@ def ex (
                 mem_we.next = 0b0
                 reg_wdata.next = op1_i | op2_i
 
-            elif funct3 == 0b111:
+            elif funct3 == 0b111: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -427,7 +427,7 @@ def ex (
                 mem_we.next = 0b0
                 reg_wdata.next = op1_i & op2_i
 
-            elif funct3 == 0b001:
+            elif funct3 == 0b001: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -437,7 +437,7 @@ def ex (
                 mem_we.next = 0b0
                 reg_wdata.next = reg1_rdata_i << inst_i[24 + 1:20]
 
-            elif funct3 == 0b101:
+            elif funct3 == 0b101: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -446,11 +446,11 @@ def ex (
                 mem_waddr_o.next = 0x0
                 mem_we.next = 0b0
                 if inst_i[30] == 0b1:
-                    reg_wdata.next = sri_shift & sri_shift_mask | (concat(*[modbv(reg1_rdata_i[31])[1:] for _ in range(32)]) & (~sri_shift_mask))
+                    reg_wdata.next = sri_shift & sri_shift_mask | (concat(*[concat(reg1_rdata_i[31]) for _ in range(32)]) & ~sri_shift_mask)
                 else:
                     reg_wdata.next = reg1_rdata_i >> inst_i[24 + 1:20]
 
-            else:
+            else: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -462,7 +462,7 @@ def ex (
 
         elif opcode == 0b0110011:
             if funct7 == 0b0000000 or funct7 == 0b0100000:
-                if funct3 == 0b000:
+                if funct3 == 0b000: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -475,7 +475,7 @@ def ex (
                     else:
                         reg_wdata.next = op1_i - op2_i
 
-                elif funct3 == 0b001:
+                elif funct3 == 0b001: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -485,7 +485,7 @@ def ex (
                     mem_we.next = 0b0
                     reg_wdata.next = op1_i << op2_i[4 + 1:0]
 
-                elif funct3 == 0b010:
+                elif funct3 == 0b010: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -493,9 +493,9 @@ def ex (
                     mem_raddr_o.next = 0x0
                     mem_waddr_o.next = 0x0
                     mem_we.next = 0b0
-                    reg_wdata.next = concat(*[modbv(~op1_ge_op2_signed)[1:] for _ in range(32)]) & 0x1
+                    reg_wdata.next = concat(*[concat(modbv(~op1_ge_op2_signed)[len(op1_ge_op2_signed):]) for _ in range(32)]) & 0x1
 
-                elif funct3 == 0b011:
+                elif funct3 == 0b011: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -503,9 +503,9 @@ def ex (
                     mem_raddr_o.next = 0x0
                     mem_waddr_o.next = 0x0
                     mem_we.next = 0b0
-                    reg_wdata.next = concat(*[modbv(~op1_ge_op2_unsigned)[1:] for _ in range(32)]) & 0x1
+                    reg_wdata.next = concat(*[concat(modbv(~op1_ge_op2_unsigned)[len(op1_ge_op2_unsigned):]) for _ in range(32)]) & 0x1
 
-                elif funct3 == 0b100:
+                elif funct3 == 0b100: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -515,7 +515,7 @@ def ex (
                     mem_we.next = 0b0
                     reg_wdata.next = op1_i ^ op2_i
 
-                elif funct3 == 0b101:
+                elif funct3 == 0b101: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -524,11 +524,11 @@ def ex (
                     mem_waddr_o.next = 0x0
                     mem_we.next = 0b0
                     if inst_i[30] == 0b1:
-                        reg_wdata.next = sr_shift & sr_shift_mask | (concat(*[modbv(reg1_rdata_i[31])[1:] for _ in range(32)]) & (~sr_shift_mask))
+                        reg_wdata.next = sr_shift & sr_shift_mask | (concat(*[concat(reg1_rdata_i[31]) for _ in range(32)]) & ~sr_shift_mask)
                     else:
                         reg_wdata.next = reg1_rdata_i >> reg2_rdata_i[4 + 1:0]
 
-                elif funct3 == 0b110:
+                elif funct3 == 0b110: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -538,7 +538,7 @@ def ex (
                     mem_we.next = 0b0
                     reg_wdata.next = op1_i | op2_i
 
-                elif funct3 == 0b111:
+                elif funct3 == 0b111: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -548,7 +548,7 @@ def ex (
                     mem_we.next = 0b0
                     reg_wdata.next = op1_i & op2_i
 
-                else:
+                else: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -559,7 +559,7 @@ def ex (
                     reg_wdata.next = 0x0
 
             elif funct7 == 0b0000001:
-                if funct3 == 0b000:
+                if funct3 == 0b000: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -569,7 +569,7 @@ def ex (
                     mem_we.next = 0b0
                     reg_wdata.next = mul_temp[31 + 1:0]
 
-                elif funct3 == 0b011:
+                elif funct3 == 0b011: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -579,7 +579,7 @@ def ex (
                     mem_we.next = 0b0
                     reg_wdata.next = mul_temp[63 + 1:32]
 
-                elif funct3 == 0b001:
+                elif funct3 == 0b001: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -596,7 +596,7 @@ def ex (
                     else:
                         reg_wdata.next = mul_temp_invert[63 + 1:32]
 
-                elif funct3 == 0b010:
+                elif funct3 == 0b010: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -609,7 +609,7 @@ def ex (
                     else:
                         reg_wdata.next = mul_temp[63 + 1:32]
 
-                else:
+                else: 
                     jump_flag.next = 0b0
                     hold_flag.next = 0b0
                     jump_addr.next = 0x0
@@ -619,7 +619,7 @@ def ex (
                     mem_we.next = 0b0
                     reg_wdata.next = 0x0
 
-            else:
+            else: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -630,7 +630,7 @@ def ex (
                 reg_wdata.next = 0x0
 
         elif opcode == 0b0000011:
-            if funct3 == 0b000:
+            if funct3 == 0b000: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -640,15 +640,15 @@ def ex (
                 mem_req.next = 0b1
                 mem_raddr_o.next = op1_add_op2_res
                 if mem_raddr_index == 0b00:
-                    reg_wdata.next = concat(*[mem_rdata_i[7] for _ in range(24)], mem_rdata_i[7 + 1:0])
+                    reg_wdata.next = concat(concat(*[concat(mem_rdata_i[7]) for _ in range(24)]), mem_rdata_i[7 + 1:0])
                 elif mem_raddr_index == 0b01:
-                    reg_wdata.next = concat(*[mem_rdata_i[15] for _ in range(24)], mem_rdata_i[15 + 1:8])
+                    reg_wdata.next = concat(concat(*[concat(mem_rdata_i[15]) for _ in range(24)]), mem_rdata_i[15 + 1:8])
                 elif mem_raddr_index == 0b10:
-                    reg_wdata.next = concat(*[mem_rdata_i[23] for _ in range(24)], mem_rdata_i[23 + 1:16])
+                    reg_wdata.next = concat(concat(*[concat(mem_rdata_i[23]) for _ in range(24)]), mem_rdata_i[23 + 1:16])
                 else:
-                    reg_wdata.next = concat(*[mem_rdata_i[31] for _ in range(24)], mem_rdata_i[31 + 1:24])
+                    reg_wdata.next = concat(concat(*[concat(mem_rdata_i[31]) for _ in range(24)]), mem_rdata_i[31 + 1:24])
 
-            elif funct3 == 0b001:
+            elif funct3 == 0b001: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -658,11 +658,11 @@ def ex (
                 mem_req.next = 0b1
                 mem_raddr_o.next = op1_add_op2_res
                 if mem_raddr_index == 0b0:
-                    reg_wdata.next = concat(*[mem_rdata_i[15] for _ in range(16)], mem_rdata_i[15 + 1:0])
+                    reg_wdata.next = concat(concat(*[concat(mem_rdata_i[15]) for _ in range(16)]), mem_rdata_i[15 + 1:0])
                 else:
-                    reg_wdata.next = concat(*[mem_rdata_i[31] for _ in range(16)], mem_rdata_i[31 + 1:16])
+                    reg_wdata.next = concat(concat(*[concat(mem_rdata_i[31]) for _ in range(16)]), mem_rdata_i[31 + 1:16])
 
-            elif funct3 == 0b010:
+            elif funct3 == 0b010: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -673,7 +673,7 @@ def ex (
                 mem_raddr_o.next = op1_add_op2_res
                 reg_wdata.next = mem_rdata_i
 
-            elif funct3 == 0b100:
+            elif funct3 == 0b100: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -691,7 +691,7 @@ def ex (
                 else:
                     reg_wdata.next = concat(modbv(0x0)[24:], mem_rdata_i[31 + 1:24])
 
-            elif funct3 == 0b101:
+            elif funct3 == 0b101: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -705,7 +705,7 @@ def ex (
                 else:
                     reg_wdata.next = concat(modbv(0x0)[16:], mem_rdata_i[31 + 1:16])
 
-            else:
+            else: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -716,7 +716,7 @@ def ex (
                 reg_wdata.next = 0x0
 
         elif opcode == 0b0100011:
-            if funct3 == 0b000:
+            if funct3 == 0b000: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -734,7 +734,7 @@ def ex (
                 else:
                     mem_wdata_o.next = concat(reg2_rdata_i[7 + 1:0], mem_rdata_i[23 + 1:0])
 
-            elif funct3 == 0b001:
+            elif funct3 == 0b001: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -748,7 +748,7 @@ def ex (
                 else:
                     mem_wdata_o.next = concat(reg2_rdata_i[15 + 1:0], mem_rdata_i[15 + 1:0])
 
-            elif funct3 == 0b010:
+            elif funct3 == 0b010: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -759,7 +759,7 @@ def ex (
                 mem_raddr_o.next = op1_add_op2_res
                 mem_wdata_o.next = reg2_rdata_i
 
-            else:
+            else: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -770,7 +770,7 @@ def ex (
                 reg_wdata.next = 0x0
 
         elif opcode == 0b1100011:
-            if funct3 == 0b000:
+            if funct3 == 0b000: 
                 hold_flag.next = 0b0
                 mem_wdata_o.next = 0x0
                 mem_raddr_o.next = 0x0
@@ -778,9 +778,9 @@ def ex (
                 mem_we.next = 0b0
                 reg_wdata.next = 0x0
                 jump_flag.next = op1_eq_op2 & 0b1
-                jump_addr.next = concat(*[op1_eq_op2 for _ in range(32)]) & op1_jump_add_op2_jump_res
+                jump_addr.next = concat(*[concat(op1_eq_op2) for _ in range(32)]) & op1_jump_add_op2_jump_res
 
-            elif funct3 == 0b001:
+            elif funct3 == 0b001: 
                 hold_flag.next = 0b0
                 mem_wdata_o.next = 0x0
                 mem_raddr_o.next = 0x0
@@ -788,9 +788,9 @@ def ex (
                 mem_we.next = 0b0
                 reg_wdata.next = 0x0
                 jump_flag.next = ~op1_eq_op2 & 0b1
-                jump_addr.next = concat(*[modbv(~op1_eq_op2)[1:] for _ in range(32)]) & op1_jump_add_op2_jump_res
+                jump_addr.next = concat(*[concat(modbv(~op1_eq_op2)[len(op1_eq_op2):]) for _ in range(32)]) & op1_jump_add_op2_jump_res
 
-            elif funct3 == 0b100:
+            elif funct3 == 0b100: 
                 hold_flag.next = 0b0
                 mem_wdata_o.next = 0x0
                 mem_raddr_o.next = 0x0
@@ -798,9 +798,9 @@ def ex (
                 mem_we.next = 0b0
                 reg_wdata.next = 0x0
                 jump_flag.next = ~op1_ge_op2_signed & 0b1
-                jump_addr.next = concat(*[modbv(~op1_ge_op2_signed)[1:] for _ in range(32)]) & op1_jump_add_op2_jump_res
+                jump_addr.next = concat(*[concat(modbv(~op1_ge_op2_signed)[len(op1_ge_op2_signed):]) for _ in range(32)]) & op1_jump_add_op2_jump_res
 
-            elif funct3 == 0b101:
+            elif funct3 == 0b101: 
                 hold_flag.next = 0b0
                 mem_wdata_o.next = 0x0
                 mem_raddr_o.next = 0x0
@@ -808,9 +808,9 @@ def ex (
                 mem_we.next = 0b0
                 reg_wdata.next = 0x0
                 jump_flag.next = op1_ge_op2_signed & 0b1
-                jump_addr.next = concat(*[op1_ge_op2_signed for _ in range(32)]) & op1_jump_add_op2_jump_res
+                jump_addr.next = concat(*[concat(op1_ge_op2_signed) for _ in range(32)]) & op1_jump_add_op2_jump_res
 
-            elif funct3 == 0b110:
+            elif funct3 == 0b110: 
                 hold_flag.next = 0b0
                 mem_wdata_o.next = 0x0
                 mem_raddr_o.next = 0x0
@@ -818,9 +818,9 @@ def ex (
                 mem_we.next = 0b0
                 reg_wdata.next = 0x0
                 jump_flag.next = ~op1_ge_op2_unsigned & 0b1
-                jump_addr.next = concat(*[modbv(~op1_ge_op2_unsigned)[1:] for _ in range(32)]) & op1_jump_add_op2_jump_res
+                jump_addr.next = concat(*[concat(modbv(~op1_ge_op2_unsigned)[len(op1_ge_op2_unsigned):]) for _ in range(32)]) & op1_jump_add_op2_jump_res
 
-            elif funct3 == 0b111:
+            elif funct3 == 0b111: 
                 hold_flag.next = 0b0
                 mem_wdata_o.next = 0x0
                 mem_raddr_o.next = 0x0
@@ -828,9 +828,9 @@ def ex (
                 mem_we.next = 0b0
                 reg_wdata.next = 0x0
                 jump_flag.next = op1_ge_op2_unsigned & 0b1
-                jump_addr.next = concat(*[op1_ge_op2_unsigned for _ in range(32)]) & op1_jump_add_op2_jump_res
+                jump_addr.next = concat(*[concat(op1_ge_op2_unsigned) for _ in range(32)]) & op1_jump_add_op2_jump_res
 
-            else:
+            else: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -840,7 +840,7 @@ def ex (
                 mem_we.next = 0b0
                 reg_wdata.next = 0x0
 
-        elif opcode == 0b1101111:
+        elif opcode == 0b1101111: 
             hold_flag.next = 0b0
             mem_wdata_o.next = 0x0
             mem_raddr_o.next = 0x0
@@ -850,7 +850,7 @@ def ex (
             jump_addr.next = op1_jump_add_op2_jump_res
             reg_wdata.next = op1_add_op2_res
 
-        elif opcode == 0b1100111:
+        elif opcode == 0b1100111: 
             hold_flag.next = 0b0
             mem_wdata_o.next = 0x0
             mem_raddr_o.next = 0x0
@@ -860,7 +860,7 @@ def ex (
             jump_addr.next = op1_jump_add_op2_jump_res
             reg_wdata.next = op1_add_op2_res
 
-        elif opcode == 0b0110111:
+        elif opcode == 0b0110111: 
             hold_flag.next = 0b0
             mem_wdata_o.next = 0x0
             mem_raddr_o.next = 0x0
@@ -870,7 +870,7 @@ def ex (
             jump_flag.next = 0b0
             reg_wdata.next = op1_add_op2_res
 
-        elif opcode == 0b0010111:
+        elif opcode == 0b0010111: 
             hold_flag.next = 0b0
             mem_wdata_o.next = 0x0
             mem_raddr_o.next = 0x0
@@ -880,7 +880,7 @@ def ex (
             jump_flag.next = 0b0
             reg_wdata.next = op1_add_op2_res
 
-        elif opcode == 0b0000001:
+        elif opcode == 0b0000001: 
             jump_flag.next = 0b0
             hold_flag.next = 0b0
             jump_addr.next = 0x0
@@ -890,7 +890,7 @@ def ex (
             mem_we.next = 0b0
             reg_wdata.next = 0x0
 
-        elif opcode == 0b0001111:
+        elif opcode == 0b0001111: 
             hold_flag.next = 0b0
             mem_wdata_o.next = 0x0
             mem_raddr_o.next = 0x0
@@ -900,7 +900,7 @@ def ex (
             jump_flag.next = 0b1
             jump_addr.next = op1_jump_add_op2_jump_res
 
-        elif opcode == 0b1110011:
+        elif opcode == 0b1110011: 
             jump_flag.next = 0b0
             hold_flag.next = 0b0
             jump_addr.next = 0x0
@@ -908,31 +908,31 @@ def ex (
             mem_raddr_o.next = 0x0
             mem_waddr_o.next = 0x0
             mem_we.next = 0b0
-            if funct3 == 0b001:
+            if funct3 == 0b001: 
                 csr_wdata_o.next = reg1_rdata_i
                 reg_wdata.next = csr_rdata_i
 
-            elif funct3 == 0b010:
+            elif funct3 == 0b010: 
                 csr_wdata_o.next = reg1_rdata_i | csr_rdata_i
                 reg_wdata.next = csr_rdata_i
 
-            elif funct3 == 0b011:
-                csr_wdata_o.next = csr_rdata_i & (~reg1_rdata_i)
+            elif funct3 == 0b011: 
+                csr_wdata_o.next = csr_rdata_i & ~reg1_rdata_i
                 reg_wdata.next = csr_rdata_i
 
-            elif funct3 == 0b101:
+            elif funct3 == 0b101: 
                 csr_wdata_o.next = concat(modbv(0x0)[27:], uimm)
                 reg_wdata.next = csr_rdata_i
 
-            elif funct3 == 0b110:
+            elif funct3 == 0b110: 
                 csr_wdata_o.next = concat(modbv(0x0)[27:], uimm) | csr_rdata_i
                 reg_wdata.next = csr_rdata_i
 
-            elif funct3 == 0b111:
+            elif funct3 == 0b111: 
                 csr_wdata_o.next = ~(concat(modbv(0x0)[27:], uimm)) & csr_rdata_i
                 reg_wdata.next = csr_rdata_i
 
-            else:
+            else: 
                 jump_flag.next = 0b0
                 hold_flag.next = 0b0
                 jump_addr.next = 0x0
@@ -943,7 +943,7 @@ def ex (
                 reg_wdata.next = 0x0
 
 
-        else:
+        else: 
             jump_flag.next = 0b0
             hold_flag.next = 0b0
             jump_addr.next = 0x0

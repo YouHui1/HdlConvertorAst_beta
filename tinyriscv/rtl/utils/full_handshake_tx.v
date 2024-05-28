@@ -110,8 +110,8 @@ module full_handshake_tx #(
         if (!rst_n) begin
             idle <= 1'b1;
             req <= 1'b0;
-            // req_data <= {(DW){1'b0}};
-            req_data <= 0;
+            req_data <= {(DW){1'b0}};
+            // req_data <= 0;
         end else begin
             case (state)
                 // 锁存TX请求数据，在收到ack之前一直保持有效
@@ -129,8 +129,8 @@ module full_handshake_tx #(
                 STATE_ASSERT: begin
                     if (ack == 1'b1) begin
                         req <= 1'b0;
-                        // req_data <= {(DW){1'b0}};
-                        req_data <= 0;
+                        req_data <= {(DW){1'b0}};
+                        // req_data <= 0;
                     end
                 end
                 STATE_DEASSERT: begin

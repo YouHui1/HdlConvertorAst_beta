@@ -171,3 +171,10 @@ def find_colon(s):
                 return idx
 
     return None
+
+def is_number(s):
+    pattern = r'^(0[xX][0-9a-fA-F]+|0[oO]?[0-7]+|0[bB][01]+|\d+)$'
+    if re.match(pattern, s):
+        return True
+    else:
+        return False

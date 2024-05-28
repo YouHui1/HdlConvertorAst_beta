@@ -31,7 +31,7 @@ module gen_pipe_dff #(
     reg[DW-1:0] qout_r;
 
     always @ (posedge clk) begin
-        if (!rst | hold_en) begin
+        if (!rst || hold_en) begin
             qout_r <= def_val;
         end else begin
             qout_r <= din;
@@ -58,8 +58,8 @@ module gen_rst_0_dff #(
 
     always @ (posedge clk) begin
         if (!rst) begin
-            // qout_r <= {DW{1'b0}};
-            qout_r <= 0;
+            qout_r <= {DW{1'b0}};
+            // qout_r <= 0;
         end else begin
             qout_r <= din;
         end
@@ -85,8 +85,8 @@ module gen_rst_1_dff #(
 
     always @ (posedge clk) begin
         if (!rst) begin
-            // qout_r <= {DW{1'b1}};
-            qout_r <= (1 << DW) - 1;
+            qout_r <= {DW{1'b1}};
+            // qout_r <= (1 << DW) - 1;
         end else begin
             qout_r <= din;
         end
@@ -140,8 +140,8 @@ module gen_en_dff #(
 
     always @ (posedge clk) begin
         if (!rst) begin
-            // qout_r <= {DW{1'b0}};
-            qout_r <= 0;
+            qout_r <= {DW{1'b0}};
+            // qout_r <= 0;
         end else if (en == 1'b1) begin
             qout_r <= din;
         end

@@ -365,7 +365,11 @@ class ToMyhdlExpr(ToHdlCommon):
                 if isinstance(x, int) and not isinstance(x, bool):
                     w(f"modbv({f_.getvalue()})[{x}:]")
                 else:
-                    w(f_.getvalue())
+                    s_ = f_.getvalue()
+                    if s_[0] == '~':
+                        w(f"modbv({s_})[len({s_[1:]}):]")
+                    else:
+                        w(s_)
 
                 if not is_last:
                     w(", ")
@@ -382,27 +386,28 @@ class ToMyhdlExpr(ToHdlCommon):
 
             self._visit_operand(o.ops[0], 0, o, True, False)
             cnt = f_.getvalue()
-            i = int(cnt)
-            while i > 0:
+            w('*[')
 
-                w("concat(")
+            w("concat(")
+            f_.truncate(0)
+            f_.seek(0)
+            for is_last, (o_i, _o) in iter_with_last(enumerate(o.ops[1:])):
                 f_.truncate(0)
                 f_.seek(0)
-                for is_last, (o_i, _o) in iter_with_last(enumerate(o.ops[1:])):
-                    f_.truncate(0)
-                    f_.seek(0)
-                    x = self._visit_operand(_o, o_i, o, False, True)
-                    if isinstance(x, int) and not isinstance(x, bool):
-                        w(f"modbv({f_.getvalue()})[{x}:]")
+                x = self._visit_operand(_o, o_i, o, False, True)
+                if isinstance(x, int) and not isinstance(x, bool):
+                    w(f"modbv({f_.getvalue()})[{x}:]")
+                else:
+                    s_ = f_.getvalue()
+                    if s_[0] == '~':
+                        w(f"modbv({s_})[len({s_[1:]}):]")
                     else:
-                        w(f_.getvalue())
-                    if not is_last:
-                        w(", ")
-                w(')')
-                i -= 1
-                if i > 0:
-                    w(',')
+                        w(s_)
+                if not is_last:
+                    w(", ")
+            w(')')
 
+            w(f' for _ in range({cnt})]')
             w(")")
             self.out = reg
             return

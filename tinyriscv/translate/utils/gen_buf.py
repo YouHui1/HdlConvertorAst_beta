@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # */ 将输入打DP拍后输出
-from utils.gen_dff import *
+from myhdl import *
 
 @block
 def gen_ticks_sync (
@@ -25,33 +25,19 @@ def gen_ticks_sync (
     DW = 32
 ):
     sync_dat = [Signal(modbv(0)[DW - 1 + 1 - 0:]) for _ in range(abs((DP - 1) - (0))+1)]
-    rst_0_dff_lst = []
+    i = Signal(modbv(0))
 
     @always_comb
     def assign_0():
         dout.next = sync_dat[DP - 1]
+    i.next = 0
+    while i < DP: 
+        if i == 0: 
+            pass
 
-    @instance
-    def generate():
-        for i in range(DP):
-            if i == 0:
-                rst_0_dff_lst.append(gen_rst_0_dff(
-                    clk=clk,
-                    rst=rst,
-                    din=din,
-                    qout=sync_dat[0],
-                    DW=DW
-                ))
-                pass
+        else: 
+            pass
 
-            else:
-                rst_0_dff_lst.append(gen_rst_0_dff(
-                    clk=clk,
-                    rst=rst,
-                    din=sync_dat[i - 1],
-                    qout=sync_dat[i],
-                    DW=DW
-                ))
-                pass
 
+        i.next = i + 1
     return instances()

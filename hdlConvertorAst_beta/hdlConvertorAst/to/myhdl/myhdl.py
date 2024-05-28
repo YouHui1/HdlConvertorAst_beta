@@ -5,7 +5,7 @@ from hdlConvertorAst.to.hdlUtils import Indent, iter_with_last
 from hdlConvertorAst.to.myhdl.stm import ToMyhdlStm
 from hdlConvertorAst.to.myhdl.utils import collect_array_dims, get_wire_t_params
 from hdlConvertorAst.to.myhdl.utils import save_port_dims, set_cur_module, search_from_dict
-from hdlConvertorAst.to.myhdl.utils import extract_last_bracket_content
+from hdlConvertorAst.to.myhdl.utils import extract_last_bracket_content, is_number
 
 import io
 
@@ -125,10 +125,11 @@ class ToMyhdl(ToMyhdlStm):
 
         # w(f.getvalue())
         x = None
-        if var.value is not None:
+        if var.value is not None and var.is_const:
             x = self.visit_iHdlExpr(var.value)
         else:
             w('0')
+
         w(')')
 
         width = 1
@@ -193,25 +194,41 @@ class ToMyhdl(ToMyhdlStm):
         array_dims = len(array_dims)
         save_port_dims(name, width, array_dims)
 
+        if var.value is not None and not var.is_const:
+            w('@always_comb\n')
+            w(f'def assign_{name}():\n')
+            with Indent(self.out):
+                w(f'{name}.next = ')
+                self.visit_iHdlExpr(var.value)
+                w('\n')
+
         return True
 
     def visit_map_item(self, item):
         if isinstance(item, HdlOp)\
                 and item.fn == HdlOpType.MAP_ASSOCIATION:
             w = self.out.write
-            # k, v pair
-            k, v = item.ops
-            self.visit_iHdlExpr(k)
-            w("=")
             reg = self.out
             f = io.StringIO()
             self.out = f
+            # k, v pair
+            k, v = item.ops
+            self.visit_iHdlExpr(k)
+            dst = f.getvalue()
+            w(dst)
+            w("=")
+            f.truncate(0)
+            f.seek(0)
             self.visit_iHdlExpr(v)
 
             src = f.getvalue()
             content = extract_last_bracket_content(src)
             if content is None:
-                w(src)
+                if is_number(src):
+                    width = search_from_dict(dst)[0]
+                    w(f'Signal(modbv({src})[{width}:])')
+                else:
+                    w(src)
             else:
                 src = src.split('[')[0]
                 w(src)
@@ -236,7 +253,10 @@ class ToMyhdl(ToMyhdlStm):
             src = f.getvalue()
             content = extract_last_bracket_content(src)
             if content is None:
-                w(src)
+                if is_number(src):
+                    w(f'Signal(modbv({src})[32:])')
+                else:
+                    w(src)
             else:
                 src = src.split('[')[0]
                 w(src)

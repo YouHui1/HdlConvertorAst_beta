@@ -73,7 +73,7 @@ def spi (
 
     @always_comb
     def assign_0():
-        spi_ss.next = not spi_ctrl[3]
+        spi_ss.next = ~spi_ctrl[3]
     @always_comb
     def assign_1():
         # SPI设备片选信号
@@ -142,7 +142,7 @@ def spi (
             if en:
                 if spi_clk_edge_level == 0b1:
                     if spi_clk_edge_cnt == 1: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1: 
                             spi_mosi.next = spi_data[bit_index]
                             # 送出1bit数据
@@ -152,7 +152,7 @@ def spi (
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
 
                     elif spi_clk_edge_cnt == 3: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1: 
                             spi_mosi.next = spi_data[bit_index]
                             # 送出1bit数据
@@ -162,7 +162,7 @@ def spi (
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
 
                     elif spi_clk_edge_cnt == 5: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1: 
                             spi_mosi.next = spi_data[bit_index]
                             # 送出1bit数据
@@ -172,7 +172,7 @@ def spi (
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
 
                     elif spi_clk_edge_cnt == 7: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1: 
                             spi_mosi.next = spi_data[bit_index]
                             # 送出1bit数据
@@ -182,7 +182,7 @@ def spi (
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
 
                     elif spi_clk_edge_cnt == 9: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1: 
                             spi_mosi.next = spi_data[bit_index]
                             # 送出1bit数据
@@ -192,7 +192,7 @@ def spi (
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
 
                     elif spi_clk_edge_cnt == 11: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1: 
                             spi_mosi.next = spi_data[bit_index]
                             # 送出1bit数据
@@ -202,7 +202,7 @@ def spi (
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
 
                     elif spi_clk_edge_cnt == 13: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1: 
                             spi_mosi.next = spi_data[bit_index]
                             # 送出1bit数据
@@ -212,7 +212,7 @@ def spi (
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
 
                     elif spi_clk_edge_cnt == 15: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1: 
                             spi_mosi.next = spi_data[bit_index]
                             # 送出1bit数据
@@ -222,7 +222,7 @@ def spi (
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
 
                     elif spi_clk_edge_cnt == 2: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1:
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
                         else: 
@@ -232,7 +232,7 @@ def spi (
 
 
                     elif spi_clk_edge_cnt == 4: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1:
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
                         else: 
@@ -242,7 +242,7 @@ def spi (
 
 
                     elif spi_clk_edge_cnt == 6: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1:
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
                         else: 
@@ -252,7 +252,7 @@ def spi (
 
 
                     elif spi_clk_edge_cnt == 8: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1:
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
                         else: 
@@ -262,7 +262,7 @@ def spi (
 
 
                     elif spi_clk_edge_cnt == 10: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1:
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
                         else: 
@@ -272,7 +272,7 @@ def spi (
 
 
                     elif spi_clk_edge_cnt == 12: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1:
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
                         else: 
@@ -282,7 +282,7 @@ def spi (
 
 
                     elif spi_clk_edge_cnt == 14: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1:
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
                         else: 
@@ -292,7 +292,7 @@ def spi (
 
 
                     elif spi_clk_edge_cnt == 16: 
-                        spi_clk.next = not spi_clk
+                        spi_clk.next = ~spi_clk
                         if spi_ctrl[2] == 0b1:
                             rdata.next = concat(rdata[6 + 1:0], spi_miso)
                         else: 

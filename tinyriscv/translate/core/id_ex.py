@@ -1,17 +1,17 @@
-#/*
+#/*                                                                      
 # Copyright 2020 Blue Liang, liangkangnan@163.com
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
+#                                                                         
+# Licensed under the Apache License, Version 2.0 (the "License");         
+# you may not use this file except in compliance with the License.        
+# You may obtain a copy of the License at                                 
+#                                                                         
+#     http://www.apache.org/licenses/LICENSE-2.0                          
+#                                                                         
+# Unless required by applicable law or agreed to in writing, software    
+# distributed under the License is distributed on an "AS IS" BASIS,       
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# See the License for the specific language governing permissions and     
+# limitations under the License.                                          
 # *//*
 # Copyright 2019 Blue Liang, liangkangnan@163.com
 #
@@ -38,7 +38,7 @@
 # CSR reg addr
 # common regs
 # 将译码结果向执行模块传递
-from utils.gen_dff import *
+from myhdl import *
 
 @block
 def id_ex (
@@ -92,139 +92,21 @@ def id_ex (
 ):
     hold_en = Signal(modbv(0)[1:])
     @always_comb
-    def assign_x0():
+    def assign_hold_en():
         hold_en.next = hold_flag_i >= 0b011
-
     inst = Signal(modbv(0)[31 + 1 - 0:])
-    inst_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x00000001,
-        inst_i,
-        inst,
-        DW=32
-    )
     inst_addr = Signal(modbv(0)[31 + 1 - 0:])
-    inst_addr_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x00000000,
-        inst_addr_i,
-        inst_addr,
-        DW=32
-    )
     reg_we = Signal(modbv(0)[1:])
-    reg_we_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x0,
-        reg_we_i,
-        reg_we,
-        DW=1
-    )
     reg_waddr = Signal(modbv(0)[4 + 1 - 0:])
-    reg_waddr_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x0,
-        reg_waddr_i,
-        reg_waddr,
-        DW=5
-    )
     reg1_rdata = Signal(modbv(0)[31 + 1 - 0:])
-    reg1_rdata_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x0,
-        reg1_rdata_i,
-        reg1_rdata,
-        DW=32
-    )
     reg2_rdata = Signal(modbv(0)[31 + 1 - 0:])
-    reg2_rdata_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x0,
-        reg2_rdata_i,
-        reg2_rdata,
-        DW=32
-    )
     csr_we = Signal(modbv(0)[1:])
-    csr_we_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x0,
-        csr_we_i,
-        csr_we,
-        DW=1
-    )
     csr_waddr = Signal(modbv(0)[31 + 1 - 0:])
-    csr_waddr_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x0,
-        csr_waddr_i,
-        csr_waddr,
-        DW=32
-    )
     csr_rdata = Signal(modbv(0)[31 + 1 - 0:])
-    csr_rdata_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x0,
-        csr_rdata_i,
-        csr_rdata,
-        DW=32
-    )
     op1 = Signal(modbv(0)[31 + 1 - 0:])
-    op1_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x0,
-        op1_i,
-        op1,
-        DW=32
-    )
     op2 = Signal(modbv(0)[31 + 1 - 0:])
-    op2_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x0,
-        op2_i,
-        op2,
-        DW=32
-    )
     op1_jump = Signal(modbv(0)[31 + 1 - 0:])
-    op1_jump_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x0,
-        op1_jump_i,
-        op1_jump,
-        DW=32
-    )
     op2_jump = Signal(modbv(0)[31 + 1 - 0:])
-    op2_jump_ff = gen_pipe_dff (
-        clk,
-        rst,
-        hold_en,
-        0x0,
-        op2_jump_i,
-        op2_jump,
-        DW=32
-    )
 
     @always_comb
     def assign_0():

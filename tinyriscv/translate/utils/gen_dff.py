@@ -54,8 +54,7 @@ def gen_rst_0_dff (
     @always(clk.posedge)
     def seq_1():
         if not rst:
-            # qout_r <= {DW{1'b0}};
-            qout_r.next = 0
+            qout_r.next = concat(*[concat(modbv(0b0)[1:]) for _ in range(DW)])
         else:
             qout_r.next = din
     return instances()
@@ -76,9 +75,7 @@ def gen_rst_1_dff (
     @always(clk.posedge)
     def seq_2():
         if not rst:
-            # qout_r <= {DW{1'b1}};
-            # qout_r.next = (1 << DW) - 1
-            qout_r.next = concat(*[modbv(1) for _ in range(DW)])
+            qout_r.next = concat(*[concat(modbv(0b1)[1:]) for _ in range(DW)])
         else:
             qout_r.next = din
     return instances()
@@ -122,8 +119,7 @@ def gen_en_dff (
     @always(clk.posedge)
     def seq_4():
         if not rst:
-            # qout_r <= {DW{1'b0}};
-            qout_r.next = 0
+            qout_r.next = concat(*[concat(modbv(0b0)[1:]) for _ in range(DW)])
         elif en == 0b1:
             qout_r.next = din
     return instances()

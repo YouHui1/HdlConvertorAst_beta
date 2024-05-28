@@ -82,7 +82,7 @@ def uart (
     def assign_1():
         # *************************** RX接收 ****************************
         # 下降沿检测(检测起始信号)
-        rx_negedge.next = rx_q1 and not rx_q0
+        rx_negedge.next = rx_q1 and ~rx_q0
     # 写寄存器
     @always(clk.posedge)
     def seq_0():

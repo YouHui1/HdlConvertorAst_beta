@@ -1,17 +1,17 @@
-#/*
+#/*                                                                      
 # Copyright 2019 Blue Liang, liangkangnan@163.com
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
+#                                                                         
+# Licensed under the Apache License, Version 2.0 (the "License");         
+# you may not use this file except in compliance with the License.        
+# You may obtain a copy of the License at                                 
+#                                                                         
+#     http://www.apache.org/licenses/LICENSE-2.0                          
+#                                                                         
+# Unless required by applicable law or agreed to in writing, software    
+# distributed under the License is distributed on an "AS IS" BASIS,       
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# See the License for the specific language governing permissions and     
+# limitations under the License.                                          
 # *//*
 # Copyright 2019 Blue Liang, liangkangnan@163.com
 #
@@ -91,33 +91,33 @@ def id (
     # CSR寄存器数据
     csr_waddr_o
 ):
-    opcode = Signal(modbv(inst_i[6 + 1:0])[6 + 1 - 0:])
+    opcode = Signal(modbv(0)[6 + 1 - 0:])
     @always_comb
     def assign_opcode():
         opcode.next = inst_i[6 + 1:0]
-    funct3 = Signal(modbv(inst_i[14 + 1:12])[2 + 1 - 0:])
+    funct3 = Signal(modbv(0)[2 + 1 - 0:])
     @always_comb
     def assign_funct3():
         funct3.next = inst_i[14 + 1:12]
-    funct7 = Signal(modbv(inst_i[31 + 1:25])[6 + 1 - 0:])
+    funct7 = Signal(modbv(0)[6 + 1 - 0:])
     @always_comb
     def assign_funct7():
         funct7.next = inst_i[31 + 1:25]
-    rd = Signal(modbv(inst_i[11 + 1:7])[4 + 1 - 0:])
+    rd = Signal(modbv(0)[4 + 1 - 0:])
     @always_comb
     def assign_rd():
         rd.next = inst_i[11 + 1:7]
-    rs1 = Signal(modbv(inst_i[19 + 1:15])[4 + 1 - 0:])
+    rs1 = Signal(modbv(0)[4 + 1 - 0:])
     @always_comb
     def assign_rs1():
         rs1.next = inst_i[19 + 1:15]
-    rs2 = Signal(modbv(inst_i[24 + 1:20])[4 + 1 - 0:])
+    rs2 = Signal(modbv(0)[4 + 1 - 0:])
     @always_comb
     def assign_rs2():
         rs2.next = inst_i[24 + 1:20]
 
     @always_comb
-    def comb_0():
+    def comb_0(): 
         inst_o.next = inst_i
         inst_addr_o.next = inst_addr_i
         reg1_rdata_o.next = reg1_rdata_i
@@ -131,71 +131,71 @@ def id (
         op1_jump_o.next = 0x0
         op2_jump_o.next = 0x0
         if opcode == 0b0010011:
-            if funct3 == 0b000:
+            if funct3 == 0b000: 
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            elif funct3 == 0b010:
+            elif funct3 == 0b010: 
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            elif funct3 == 0b011:
+            elif funct3 == 0b011: 
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            elif funct3 == 0b100:
+            elif funct3 == 0b100: 
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            elif funct3 == 0b110:
+            elif funct3 == 0b110: 
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            elif funct3 == 0b111:
+            elif funct3 == 0b111: 
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            elif funct3 == 0b001:
+            elif funct3 == 0b001: 
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            elif funct3 == 0b101:
+            elif funct3 == 0b101: 
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            else:
+            else: 
                 reg_we_o.next = 0b0
                 reg_waddr_o.next = 0x0
                 reg1_raddr_o.next = 0x0
@@ -203,7 +203,7 @@ def id (
 
         elif opcode == 0b0110011:
             if funct7 == 0b0000000 or funct7 == 0b0100000:
-                if funct3 == 0b000:
+                if funct3 == 0b000: 
                     reg_we_o.next = 0b1
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -211,7 +211,7 @@ def id (
                     op1_o.next = reg1_rdata_i
                     op2_o.next = reg2_rdata_i
 
-                elif funct3 == 0b001:
+                elif funct3 == 0b001: 
                     reg_we_o.next = 0b1
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -219,7 +219,7 @@ def id (
                     op1_o.next = reg1_rdata_i
                     op2_o.next = reg2_rdata_i
 
-                elif funct3 == 0b010:
+                elif funct3 == 0b010: 
                     reg_we_o.next = 0b1
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -227,7 +227,7 @@ def id (
                     op1_o.next = reg1_rdata_i
                     op2_o.next = reg2_rdata_i
 
-                elif funct3 == 0b011:
+                elif funct3 == 0b011: 
                     reg_we_o.next = 0b1
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -235,7 +235,7 @@ def id (
                     op1_o.next = reg1_rdata_i
                     op2_o.next = reg2_rdata_i
 
-                elif funct3 == 0b100:
+                elif funct3 == 0b100: 
                     reg_we_o.next = 0b1
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -243,7 +243,7 @@ def id (
                     op1_o.next = reg1_rdata_i
                     op2_o.next = reg2_rdata_i
 
-                elif funct3 == 0b101:
+                elif funct3 == 0b101: 
                     reg_we_o.next = 0b1
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -251,7 +251,7 @@ def id (
                     op1_o.next = reg1_rdata_i
                     op2_o.next = reg2_rdata_i
 
-                elif funct3 == 0b110:
+                elif funct3 == 0b110: 
                     reg_we_o.next = 0b1
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -259,7 +259,7 @@ def id (
                     op1_o.next = reg1_rdata_i
                     op2_o.next = reg2_rdata_i
 
-                elif funct3 == 0b111:
+                elif funct3 == 0b111: 
                     reg_we_o.next = 0b1
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -267,14 +267,14 @@ def id (
                     op1_o.next = reg1_rdata_i
                     op2_o.next = reg2_rdata_i
 
-                else:
+                else: 
                     reg_we_o.next = 0b0
                     reg_waddr_o.next = 0x0
                     reg1_raddr_o.next = 0x0
                     reg2_raddr_o.next = 0x0
 
             elif funct7 == 0b0000001:
-                if funct3 == 0b000:
+                if funct3 == 0b000: 
                     reg_we_o.next = 0b1
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -282,7 +282,7 @@ def id (
                     op1_o.next = reg1_rdata_i
                     op2_o.next = reg2_rdata_i
 
-                elif funct3 == 0b011:
+                elif funct3 == 0b011: 
                     reg_we_o.next = 0b1
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -290,7 +290,7 @@ def id (
                     op1_o.next = reg1_rdata_i
                     op2_o.next = reg2_rdata_i
 
-                elif funct3 == 0b001:
+                elif funct3 == 0b001: 
                     reg_we_o.next = 0b1
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -298,7 +298,7 @@ def id (
                     op1_o.next = reg1_rdata_i
                     op2_o.next = reg2_rdata_i
 
-                elif funct3 == 0b010:
+                elif funct3 == 0b010: 
                     reg_we_o.next = 0b1
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -306,7 +306,7 @@ def id (
                     op1_o.next = reg1_rdata_i
                     op2_o.next = reg2_rdata_i
 
-                elif funct3 == 0b100:
+                elif funct3 == 0b100: 
                     reg_we_o.next = 0b0
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -316,7 +316,7 @@ def id (
                     op1_jump_o.next = inst_addr_i
                     op2_jump_o.next = 0x4
 
-                elif funct3 == 0b101:
+                elif funct3 == 0b101: 
                     reg_we_o.next = 0b0
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -326,7 +326,7 @@ def id (
                     op1_jump_o.next = inst_addr_i
                     op2_jump_o.next = 0x4
 
-                elif funct3 == 0b110:
+                elif funct3 == 0b110: 
                     reg_we_o.next = 0b0
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -336,7 +336,7 @@ def id (
                     op1_jump_o.next = inst_addr_i
                     op2_jump_o.next = 0x4
 
-                elif funct3 == 0b111:
+                elif funct3 == 0b111: 
                     reg_we_o.next = 0b0
                     reg_waddr_o.next = rd
                     reg1_raddr_o.next = rs1
@@ -346,98 +346,98 @@ def id (
                     op1_jump_o.next = inst_addr_i
                     op2_jump_o.next = 0x4
 
-                else:
+                else: 
                     reg_we_o.next = 0b0
                     reg_waddr_o.next = 0x0
                     reg1_raddr_o.next = 0x0
                     reg2_raddr_o.next = 0x0
 
-            else:
+            else: 
                 reg_we_o.next = 0b0
                 reg_waddr_o.next = 0x0
                 reg1_raddr_o.next = 0x0
                 reg2_raddr_o.next = 0x0
 
         elif opcode == 0b0000011:
-            if funct3 == 0b000:
+            if funct3 == 0b000: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            elif funct3 == 0b001:
+            elif funct3 == 0b001: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            elif funct3 == 0b010:
+            elif funct3 == 0b010: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            elif funct3 == 0b100:
+            elif funct3 == 0b100: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            elif funct3 == 0b101:
+            elif funct3 == 0b101: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+                op2_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-            else:
+            else: 
                 reg1_raddr_o.next = 0x0
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b0
                 reg_waddr_o.next = 0x0
 
         elif opcode == 0b0100011:
-            if funct3 == 0b000:
+            if funct3 == 0b000: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = rs2
                 reg_we_o.next = 0b0
                 reg_waddr_o.next = 0x0
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:25]), inst_i[11 + 1:7])
+                op2_o.next = concat(concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:25]), inst_i[11 + 1:7])
 
-            elif funct3 == 0b010:
+            elif funct3 == 0b010: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = rs2
                 reg_we_o.next = 0b0
                 reg_waddr_o.next = 0x0
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:25]), inst_i[11 + 1:7])
+                op2_o.next = concat(concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:25]), inst_i[11 + 1:7])
 
-            elif funct3 == 0b001:
+            elif funct3 == 0b001: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = rs2
                 reg_we_o.next = 0b0
                 reg_waddr_o.next = 0x0
                 op1_o.next = reg1_rdata_i
-                op2_o.next = concat(concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:25]), inst_i[11 + 1:7])
+                op2_o.next = concat(concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:25]), inst_i[11 + 1:7])
 
-            else:
+            else: 
                 reg1_raddr_o.next = 0x0
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b0
                 reg_waddr_o.next = 0x0
 
         elif opcode == 0b1100011:
-            if funct3 == 0b000:
+            if funct3 == 0b000: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = rs2
                 reg_we_o.next = 0b0
@@ -445,9 +445,9 @@ def id (
                 op1_o.next = reg1_rdata_i
                 op2_o.next = reg2_rdata_i
                 op1_jump_o.next = inst_addr_i
-                op2_jump_o.next = concat(concat(concat(concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[7]), inst_i[30 + 1:25]), inst_i[11 + 1:8]), modbv(0b0)[1:])
+                op2_jump_o.next = concat(concat(concat(concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[7]), inst_i[30 + 1:25]), inst_i[11 + 1:8]), modbv(0b0)[1:])
 
-            elif funct3 == 0b001:
+            elif funct3 == 0b001: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = rs2
                 reg_we_o.next = 0b0
@@ -455,9 +455,9 @@ def id (
                 op1_o.next = reg1_rdata_i
                 op2_o.next = reg2_rdata_i
                 op1_jump_o.next = inst_addr_i
-                op2_jump_o.next = concat(concat(concat(concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[7]), inst_i[30 + 1:25]), inst_i[11 + 1:8]), modbv(0b0)[1:])
+                op2_jump_o.next = concat(concat(concat(concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[7]), inst_i[30 + 1:25]), inst_i[11 + 1:8]), modbv(0b0)[1:])
 
-            elif funct3 == 0b100:
+            elif funct3 == 0b100: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = rs2
                 reg_we_o.next = 0b0
@@ -465,9 +465,9 @@ def id (
                 op1_o.next = reg1_rdata_i
                 op2_o.next = reg2_rdata_i
                 op1_jump_o.next = inst_addr_i
-                op2_jump_o.next = concat(concat(concat(concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[7]), inst_i[30 + 1:25]), inst_i[11 + 1:8]), modbv(0b0)[1:])
+                op2_jump_o.next = concat(concat(concat(concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[7]), inst_i[30 + 1:25]), inst_i[11 + 1:8]), modbv(0b0)[1:])
 
-            elif funct3 == 0b101:
+            elif funct3 == 0b101: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = rs2
                 reg_we_o.next = 0b0
@@ -475,9 +475,9 @@ def id (
                 op1_o.next = reg1_rdata_i
                 op2_o.next = reg2_rdata_i
                 op1_jump_o.next = inst_addr_i
-                op2_jump_o.next = concat(concat(concat(concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[7]), inst_i[30 + 1:25]), inst_i[11 + 1:8]), modbv(0b0)[1:])
+                op2_jump_o.next = concat(concat(concat(concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[7]), inst_i[30 + 1:25]), inst_i[11 + 1:8]), modbv(0b0)[1:])
 
-            elif funct3 == 0b110:
+            elif funct3 == 0b110: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = rs2
                 reg_we_o.next = 0b0
@@ -485,9 +485,9 @@ def id (
                 op1_o.next = reg1_rdata_i
                 op2_o.next = reg2_rdata_i
                 op1_jump_o.next = inst_addr_i
-                op2_jump_o.next = concat(concat(concat(concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[7]), inst_i[30 + 1:25]), inst_i[11 + 1:8]), modbv(0b0)[1:])
+                op2_jump_o.next = concat(concat(concat(concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[7]), inst_i[30 + 1:25]), inst_i[11 + 1:8]), modbv(0b0)[1:])
 
-            elif funct3 == 0b111:
+            elif funct3 == 0b111: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = rs2
                 reg_we_o.next = 0b0
@@ -495,15 +495,15 @@ def id (
                 op1_o.next = reg1_rdata_i
                 op2_o.next = reg2_rdata_i
                 op1_jump_o.next = inst_addr_i
-                op2_jump_o.next = concat(concat(concat(concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[7]), inst_i[30 + 1:25]), inst_i[11 + 1:8]), modbv(0b0)[1:])
+                op2_jump_o.next = concat(concat(concat(concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[7]), inst_i[30 + 1:25]), inst_i[11 + 1:8]), modbv(0b0)[1:])
 
-            else:
+            else: 
                 reg1_raddr_o.next = 0x0
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b0
                 reg_waddr_o.next = 0x0
 
-        elif opcode == 0b1101111:
+        elif opcode == 0b1101111: 
             reg_we_o.next = 0b1
             reg_waddr_o.next = rd
             reg1_raddr_o.next = 0x0
@@ -511,9 +511,9 @@ def id (
             op1_o.next = inst_addr_i
             op2_o.next = 0x4
             op1_jump_o.next = inst_addr_i
-            op2_jump_o.next = concat(concat(concat(concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[19 + 1:12]), inst_i[20]), inst_i[30 + 1:21]), modbv(0b0)[1:])
+            op2_jump_o.next = concat(concat(concat(concat(concat(*[concat(inst_i[31]) for _ in range(12)]), inst_i[19 + 1:12]), inst_i[20]), inst_i[30 + 1:21]), modbv(0b0)[1:])
 
-        elif opcode == 0b1100111:
+        elif opcode == 0b1100111: 
             reg_we_o.next = 0b1
             reg1_raddr_o.next = rs1
             reg2_raddr_o.next = 0x0
@@ -521,9 +521,9 @@ def id (
             op1_o.next = inst_addr_i
             op2_o.next = 0x4
             op1_jump_o.next = reg1_rdata_i
-            op2_jump_o.next = concat(concat(concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31]),concat(inst_i[31])), inst_i[31 + 1:20])
+            op2_jump_o.next = concat(concat(*[concat(inst_i[31]) for _ in range(20)]), inst_i[31 + 1:20])
 
-        elif opcode == 0b0110111:
+        elif opcode == 0b0110111: 
             reg_we_o.next = 0b1
             reg_waddr_o.next = rd
             reg1_raddr_o.next = 0x0
@@ -531,7 +531,7 @@ def id (
             op1_o.next = concat(inst_i[31 + 1:12], modbv(0b0)[12:])
             op2_o.next = 0x0
 
-        elif opcode == 0b0010111:
+        elif opcode == 0b0010111: 
             reg_we_o.next = 0b1
             reg_waddr_o.next = rd
             reg1_raddr_o.next = 0x0
@@ -539,13 +539,13 @@ def id (
             op1_o.next = inst_addr_i
             op2_o.next = concat(inst_i[31 + 1:12], modbv(0b0)[12:])
 
-        elif opcode == 0b0000001:
+        elif opcode == 0b0000001: 
             reg_we_o.next = 0b0
             reg_waddr_o.next = 0x0
             reg1_raddr_o.next = 0x0
             reg2_raddr_o.next = 0x0
 
-        elif opcode == 0b0001111:
+        elif opcode == 0b0001111: 
             reg_we_o.next = 0b0
             reg_waddr_o.next = 0x0
             reg1_raddr_o.next = 0x0
@@ -553,56 +553,56 @@ def id (
             op1_jump_o.next = inst_addr_i
             op2_jump_o.next = 0x4
 
-        elif opcode == 0b1110011:
+        elif opcode == 0b1110011: 
             reg_we_o.next = 0b0
             reg_waddr_o.next = 0x0
             reg1_raddr_o.next = 0x0
             reg2_raddr_o.next = 0x0
             csr_raddr_o.next = concat(modbv(0x0)[20:], inst_i[31 + 1:20])
             csr_waddr_o.next = concat(modbv(0x0)[20:], inst_i[31 + 1:20])
-            if funct3 == 0b001:
+            if funct3 == 0b001: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 csr_we_o.next = 0b1
 
-            elif funct3 == 0b010:
+            elif funct3 == 0b010: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 csr_we_o.next = 0b1
 
-            elif funct3 == 0b011:
+            elif funct3 == 0b011: 
                 reg1_raddr_o.next = rs1
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 csr_we_o.next = 0b1
 
-            elif funct3 == 0b101:
+            elif funct3 == 0b101: 
                 reg1_raddr_o.next = 0x0
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 csr_we_o.next = 0b1
 
-            elif funct3 == 0b110:
+            elif funct3 == 0b110: 
                 reg1_raddr_o.next = 0x0
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 csr_we_o.next = 0b1
 
-            elif funct3 == 0b111:
+            elif funct3 == 0b111: 
                 reg1_raddr_o.next = 0x0
                 reg2_raddr_o.next = 0x0
                 reg_we_o.next = 0b1
                 reg_waddr_o.next = rd
                 csr_we_o.next = 0b1
 
-            else:
+            else: 
                 reg_we_o.next = 0b0
                 reg_waddr_o.next = 0x0
                 reg1_raddr_o.next = 0x0
@@ -610,7 +610,7 @@ def id (
                 csr_we_o.next = 0b0
 
 
-        else:
+        else: 
             reg_we_o.next = 0b0
             reg_waddr_o.next = 0x0
             reg1_raddr_o.next = 0x0

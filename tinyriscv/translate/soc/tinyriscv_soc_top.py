@@ -38,11 +38,7 @@
 # CSR reg addr
 # common regs
 # tinyriscv soc顶层模块
-# from myhdl import *
-from core.rib import *
-from core.tinyriscv import *
-from perips.rom import *
-
+from myhdl import *
 
 @block
 def tinyriscv_soc_top (
@@ -157,17 +153,17 @@ def tinyriscv_soc_top (
     def assign_1():
         # 低电平点亮LED
         # 低电平表示已经halt住CPU
-        halted_ind.next = not jtag_halt_req_o
+        halted_ind.next = ~jtag_halt_req_o
     @always(clk.posedge)
     def seq_0():
-        if rst == 0b0:
+        if rst == 0b0: 
             over.next = 0b1
             succ.next = 0b1
-        else:
-            over.next = ~u_regs[26]
-            # when = 1, run over
-            succ.next = ~u_regs[27]
 
+        else: 
+            over.next = ~u_tinyriscv.u_regs.regs[26]
+            # when = 1, run over
+            succ.next = ~u_tinyriscv.u_regs.regs[27]
 
     u_rib = rib(
         clk=clk,
@@ -178,7 +174,7 @@ def tinyriscv_soc_top (
         m0_req_i=m0_req_i,
         m0_we_i=m0_we_i,
         m1_addr_i=m1_addr_i,
-        m1_data_i=Signal(modbv(0x0)[32:]),
+        m1_data_i=Signal(modbv(0x0)[31 + 1 - 0:]),
         m1_data_o=m1_data_o,
         m1_req_i=Signal(modbv(0b1)[1:]),
         m1_we_i=Signal(modbv(0b0)[1:]),
@@ -245,5 +241,4 @@ def tinyriscv_soc_top (
         data_i=s0_data_o,
         data_o=s0_data_i
     )
-
     return instances()

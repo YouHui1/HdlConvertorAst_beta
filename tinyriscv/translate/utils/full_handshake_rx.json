@@ -1142,21 +1142,25 @@
                                     },
                                     {
                                         "__class__":"HdlStmAssign",
-                                        "doc":{
-                                            "__class__":"str",
-                                            "val":" recv_data <= {(DW){1'b0}};\n"
-                                        },
                                         "position":[
-                                            103,
+                                            102,
                                             13,
-                                            103,
-                                            26
+                                            102,
+                                            37
                                         ],
                                         "labels":[],
                                         "src":{
-                                            "__class__":"HdlValueInt",
-                                            "val":"0",
-                                            "base":10
+                                            "__class__":"HdlOp",
+                                            "ops":[
+                                                "DW",
+                                                {
+                                                    "__class__":"HdlValueInt",
+                                                    "val":"0",
+                                                    "bits":1,
+                                                    "base":2
+                                                }
+                                            ],
+                                            "fn":"REPL_CONCAT"
                                         },
                                         "dst":"recv_data",
                                         "is_blocking":false
@@ -1326,21 +1330,25 @@
                                                         },
                                                         {
                                                             "__class__":"HdlStmAssign",
-                                                            "doc":{
-                                                                "__class__":"str",
-                                                                "val":" recv_data <= {(DW){1'b0}};\n"
-                                                            },
                                                             "position":[
-                                                                116,
+                                                                115,
                                                                 21,
-                                                                116,
-                                                                34
+                                                                115,
+                                                                45
                                                             ],
                                                             "labels":[],
                                                             "src":{
-                                                                "__class__":"HdlValueInt",
-                                                                "val":"0",
-                                                                "base":10
+                                                                "__class__":"HdlOp",
+                                                                "ops":[
+                                                                    "DW",
+                                                                    {
+                                                                        "__class__":"HdlValueInt",
+                                                                        "val":"0",
+                                                                        "bits":1,
+                                                                        "base":2
+                                                                    }
+                                                                ],
+                                                                "fn":"REPL_CONCAT"
                                                             },
                                                             "dst":"recv_data",
                                                             "is_blocking":false
@@ -1349,7 +1357,7 @@
                                                             "__class__":"HdlStmIf",
                                                             "doc":{
                                                                 "__class__":"str",
-                                                                "val":" req\u64a4\u9500\u540eack\u4e5f\u64a4\u9500\n"
+                                                                "val":" recv_data <= 0;\n req\u64a4\u9500\u540eack\u4e5f\u64a4\u9500\n"
                                                             },
                                                             "position":[
                                                                 118,

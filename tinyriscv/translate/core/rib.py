@@ -168,25 +168,25 @@ def rib (
     # 优先级由高到低：主设备3，主设备0，主设备2，主设备1
     @always_comb
     def comb_0():
-        if req[3]:
+        if req[3]: 
             grant.next = grant3
             hold_flag_o.next = 0b1
 
-        elif req[0]:
+        elif req[0]: 
             grant.next = grant0
             hold_flag_o.next = 0b1
 
-        elif req[2]:
+        elif req[2]: 
             grant.next = grant2
             hold_flag_o.next = 0b1
 
-        else:
+        else: 
             grant.next = grant1
             hold_flag_o.next = 0b0
 
     # 根据仲裁结果，选择(访问)对应的从设备
     @always_comb
-    def comb_1():
+    def comb_1(): 
         m0_data_o.next = 0x0
         m1_data_o.next = 0x00000001
         m2_data_o.next = 0x0
@@ -210,166 +210,166 @@ def rib (
         s4_we_o.next = 0b0
         s5_we_o.next = 0b0
         if grant == grant0:
-            if m0_addr_i[31 + 1:28] == slave_0:
+            if m0_addr_i[31 + 1:28] == slave_0: 
                 s0_we_o.next = m0_we_i
                 s0_addr_o.next = concat(modbv(0x0)[4:], m0_addr_i[27 + 1:0])
                 s0_data_o.next = m0_data_i
                 m0_data_o.next = s0_data_i
 
-            elif m0_addr_i[31 + 1:28] == slave_1:
+            elif m0_addr_i[31 + 1:28] == slave_1: 
                 s1_we_o.next = m0_we_i
                 s1_addr_o.next = concat(modbv(0x0)[4:], m0_addr_i[27 + 1:0])
                 s1_data_o.next = m0_data_i
                 m0_data_o.next = s1_data_i
 
-            elif m0_addr_i[31 + 1:28] == slave_2:
+            elif m0_addr_i[31 + 1:28] == slave_2: 
                 s2_we_o.next = m0_we_i
                 s2_addr_o.next = concat(modbv(0x0)[4:], m0_addr_i[27 + 1:0])
                 s2_data_o.next = m0_data_i
                 m0_data_o.next = s2_data_i
 
-            elif m0_addr_i[31 + 1:28] == slave_3:
+            elif m0_addr_i[31 + 1:28] == slave_3: 
                 s3_we_o.next = m0_we_i
                 s3_addr_o.next = concat(modbv(0x0)[4:], m0_addr_i[27 + 1:0])
                 s3_data_o.next = m0_data_i
                 m0_data_o.next = s3_data_i
 
-            elif m0_addr_i[31 + 1:28] == slave_4:
+            elif m0_addr_i[31 + 1:28] == slave_4: 
                 s4_we_o.next = m0_we_i
                 s4_addr_o.next = concat(modbv(0x0)[4:], m0_addr_i[27 + 1:0])
                 s4_data_o.next = m0_data_i
                 m0_data_o.next = s4_data_i
 
-            elif m0_addr_i[31 + 1:28] == slave_5:
+            elif m0_addr_i[31 + 1:28] == slave_5: 
                 s5_we_o.next = m0_we_i
                 s5_addr_o.next = concat(modbv(0x0)[4:], m0_addr_i[27 + 1:0])
                 s5_data_o.next = m0_data_i
                 m0_data_o.next = s5_data_i
 
-            else:
+            else: 
                 pass
 
         elif grant == grant1:
-            if m1_addr_i[31 + 1:28] == slave_0:
+            if m1_addr_i[31 + 1:28] == slave_0: 
                 s0_we_o.next = m1_we_i
                 s0_addr_o.next = concat(modbv(0x0)[4:], m1_addr_i[27 + 1:0])
                 s0_data_o.next = m1_data_i
                 m1_data_o.next = s0_data_i
 
-            elif m1_addr_i[31 + 1:28] == slave_1:
+            elif m1_addr_i[31 + 1:28] == slave_1: 
                 s1_we_o.next = m1_we_i
                 s1_addr_o.next = concat(modbv(0x0)[4:], m1_addr_i[27 + 1:0])
                 s1_data_o.next = m1_data_i
                 m1_data_o.next = s1_data_i
 
-            elif m1_addr_i[31 + 1:28] == slave_2:
+            elif m1_addr_i[31 + 1:28] == slave_2: 
                 s2_we_o.next = m1_we_i
                 s2_addr_o.next = concat(modbv(0x0)[4:], m1_addr_i[27 + 1:0])
                 s2_data_o.next = m1_data_i
                 m1_data_o.next = s2_data_i
 
-            elif m1_addr_i[31 + 1:28] == slave_3:
+            elif m1_addr_i[31 + 1:28] == slave_3: 
                 s3_we_o.next = m1_we_i
                 s3_addr_o.next = concat(modbv(0x0)[4:], m1_addr_i[27 + 1:0])
                 s3_data_o.next = m1_data_i
                 m1_data_o.next = s3_data_i
 
-            elif m1_addr_i[31 + 1:28] == slave_4:
+            elif m1_addr_i[31 + 1:28] == slave_4: 
                 s4_we_o.next = m1_we_i
                 s4_addr_o.next = concat(modbv(0x0)[4:], m1_addr_i[27 + 1:0])
                 s4_data_o.next = m1_data_i
                 m1_data_o.next = s4_data_i
 
-            elif m1_addr_i[31 + 1:28] == slave_5:
+            elif m1_addr_i[31 + 1:28] == slave_5: 
                 s5_we_o.next = m1_we_i
                 s5_addr_o.next = concat(modbv(0x0)[4:], m1_addr_i[27 + 1:0])
                 s5_data_o.next = m1_data_i
                 m1_data_o.next = s5_data_i
 
-            else:
+            else: 
                 pass
 
         elif grant == grant2:
-            if m2_addr_i[31 + 1:28] == slave_0:
+            if m2_addr_i[31 + 1:28] == slave_0: 
                 s0_we_o.next = m2_we_i
                 s0_addr_o.next = concat(modbv(0x0)[4:], m2_addr_i[27 + 1:0])
                 s0_data_o.next = m2_data_i
                 m2_data_o.next = s0_data_i
 
-            elif m2_addr_i[31 + 1:28] == slave_1:
+            elif m2_addr_i[31 + 1:28] == slave_1: 
                 s1_we_o.next = m2_we_i
                 s1_addr_o.next = concat(modbv(0x0)[4:], m2_addr_i[27 + 1:0])
                 s1_data_o.next = m2_data_i
                 m2_data_o.next = s1_data_i
 
-            elif m2_addr_i[31 + 1:28] == slave_2:
+            elif m2_addr_i[31 + 1:28] == slave_2: 
                 s2_we_o.next = m2_we_i
                 s2_addr_o.next = concat(modbv(0x0)[4:], m2_addr_i[27 + 1:0])
                 s2_data_o.next = m2_data_i
                 m2_data_o.next = s2_data_i
 
-            elif m2_addr_i[31 + 1:28] == slave_3:
+            elif m2_addr_i[31 + 1:28] == slave_3: 
                 s3_we_o.next = m2_we_i
                 s3_addr_o.next = concat(modbv(0x0)[4:], m2_addr_i[27 + 1:0])
                 s3_data_o.next = m2_data_i
                 m2_data_o.next = s3_data_i
 
-            elif m2_addr_i[31 + 1:28] == slave_4:
+            elif m2_addr_i[31 + 1:28] == slave_4: 
                 s4_we_o.next = m2_we_i
                 s4_addr_o.next = concat(modbv(0x0)[4:], m2_addr_i[27 + 1:0])
                 s4_data_o.next = m2_data_i
                 m2_data_o.next = s4_data_i
 
-            elif m2_addr_i[31 + 1:28] == slave_5:
+            elif m2_addr_i[31 + 1:28] == slave_5: 
                 s5_we_o.next = m2_we_i
                 s5_addr_o.next = concat(modbv(0x0)[4:], m2_addr_i[27 + 1:0])
                 s5_data_o.next = m2_data_i
                 m2_data_o.next = s5_data_i
 
-            else:
+            else: 
                 pass
 
         elif grant == grant3:
-            if m3_addr_i[31 + 1:28] == slave_0:
+            if m3_addr_i[31 + 1:28] == slave_0: 
                 s0_we_o.next = m3_we_i
                 s0_addr_o.next = concat(modbv(0x0)[4:], m3_addr_i[27 + 1:0])
                 s0_data_o.next = m3_data_i
                 m3_data_o.next = s0_data_i
 
-            elif m3_addr_i[31 + 1:28] == slave_1:
+            elif m3_addr_i[31 + 1:28] == slave_1: 
                 s1_we_o.next = m3_we_i
                 s1_addr_o.next = concat(modbv(0x0)[4:], m3_addr_i[27 + 1:0])
                 s1_data_o.next = m3_data_i
                 m3_data_o.next = s1_data_i
 
-            elif m3_addr_i[31 + 1:28] == slave_2:
+            elif m3_addr_i[31 + 1:28] == slave_2: 
                 s2_we_o.next = m3_we_i
                 s2_addr_o.next = concat(modbv(0x0)[4:], m3_addr_i[27 + 1:0])
                 s2_data_o.next = m3_data_i
                 m3_data_o.next = s2_data_i
 
-            elif m3_addr_i[31 + 1:28] == slave_3:
+            elif m3_addr_i[31 + 1:28] == slave_3: 
                 s3_we_o.next = m3_we_i
                 s3_addr_o.next = concat(modbv(0x0)[4:], m3_addr_i[27 + 1:0])
                 s3_data_o.next = m3_data_i
                 m3_data_o.next = s3_data_i
 
-            elif m3_addr_i[31 + 1:28] == slave_4:
+            elif m3_addr_i[31 + 1:28] == slave_4: 
                 s4_we_o.next = m3_we_i
                 s4_addr_o.next = concat(modbv(0x0)[4:], m3_addr_i[27 + 1:0])
                 s4_data_o.next = m3_data_i
                 m3_data_o.next = s4_data_i
 
-            elif m3_addr_i[31 + 1:28] == slave_5:
+            elif m3_addr_i[31 + 1:28] == slave_5: 
                 s5_we_o.next = m3_we_i
                 s5_addr_o.next = concat(modbv(0x0)[4:], m3_addr_i[27 + 1:0])
                 s5_data_o.next = m3_data_i
                 m3_data_o.next = s5_data_i
 
-            else:
+            else: 
                 pass
 
-        else:
+        else: 
             pass
 
 

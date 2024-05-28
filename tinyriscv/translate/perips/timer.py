@@ -12,20 +12,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and     
 # limitations under the License.                                          
-# *//*                                                                      
+# *//*
 # Copyright 2019 Blue Liang, liangkangnan@163.com
-#                                                                         
-# Licensed under the Apache License, Version 2.0 (the "License");         
-# you may not use this file except in compliance with the License.        
-# You may obtain a copy of the License at                                 
-#                                                                         
-#     http://www.apache.org/licenses/LICENSE-2.0                          
-#                                                                         
-# Unless required by applicable law or agreed to in writing, software    
-# distributed under the License is distributed on an "AS IS" BASIS,       
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and     
-# limitations under the License.                                          
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # */ I type inst
 # L type inst
 # S type inst
@@ -91,7 +91,7 @@ def timer (
         else:
             if we_i == 0b1:
                 if addr_i[3 + 1:0] == REG_CTRL:
-                    timer_ctrl.next = concat(concat(data_i[31 + 1:3], timer_ctrl[2] & not data_i[2]), data_i[1 + 1:0])
+                    timer_ctrl.next = concat(concat(data_i[31 + 1:3], timer_ctrl[2] & ~data_i[2]), data_i[1 + 1:0])
                 elif addr_i[3 + 1:0] == REG_VALUE:
                     timer_value.next = data_i
 

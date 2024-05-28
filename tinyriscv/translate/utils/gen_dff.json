@@ -352,13 +352,13 @@
                                     },
                                     "hold_en"
                                 ],
-                                "fn":"OR"
+                                "fn":"OR_LOG"
                             },
                             "if_true":{
                                 "__class__":"HdlStmBlock",
                                 "position":[
                                     34,
-                                    29,
+                                    30,
                                     36,
                                     11
                                 ],
@@ -722,21 +722,25 @@
                                 "body":[
                                     {
                                         "__class__":"HdlStmAssign",
-                                        "doc":{
-                                            "__class__":"str",
-                                            "val":" qout_r <= {DW{1'b0}};\n"
-                                        },
                                         "position":[
-                                            62,
+                                            61,
                                             13,
-                                            62,
-                                            23
+                                            61,
+                                            32
                                         ],
                                         "labels":[],
                                         "src":{
-                                            "__class__":"HdlValueInt",
-                                            "val":"0",
-                                            "base":10
+                                            "__class__":"HdlOp",
+                                            "ops":[
+                                                "DW",
+                                                {
+                                                    "__class__":"HdlValueInt",
+                                                    "val":"0",
+                                                    "bits":1,
+                                                    "base":2
+                                                }
+                                            ],
+                                            "fn":"REPL_CONCAT"
                                         },
                                         "dst":"qout_r",
                                         "is_blocking":false
@@ -1085,39 +1089,25 @@
                                 "body":[
                                     {
                                         "__class__":"HdlStmAssign",
-                                        "doc":{
-                                            "__class__":"str",
-                                            "val":" qout_r <= {DW{1'b1}};\n"
-                                        },
                                         "position":[
-                                            89,
+                                            88,
                                             13,
-                                            89,
-                                            35
+                                            88,
+                                            32
                                         ],
                                         "labels":[],
                                         "src":{
                                             "__class__":"HdlOp",
                                             "ops":[
-                                                {
-                                                    "__class__":"HdlOp",
-                                                    "ops":[
-                                                        {
-                                                            "__class__":"HdlValueInt",
-                                                            "val":"1",
-                                                            "base":10
-                                                        },
-                                                        "DW"
-                                                    ],
-                                                    "fn":"SLL"
-                                                },
+                                                "DW",
                                                 {
                                                     "__class__":"HdlValueInt",
                                                     "val":"1",
-                                                    "base":10
+                                                    "bits":1,
+                                                    "base":2
                                                 }
                                             ],
-                                            "fn":"SUB"
+                                            "fn":"REPL_CONCAT"
                                         },
                                         "dst":"qout_r",
                                         "is_blocking":false
@@ -1886,21 +1876,25 @@
                                 "body":[
                                     {
                                         "__class__":"HdlStmAssign",
-                                        "doc":{
-                                            "__class__":"str",
-                                            "val":" qout_r <= {DW{1'b0}};\n"
-                                        },
                                         "position":[
-                                            144,
+                                            143,
                                             13,
-                                            144,
-                                            23
+                                            143,
+                                            32
                                         ],
                                         "labels":[],
                                         "src":{
-                                            "__class__":"HdlValueInt",
-                                            "val":"0",
-                                            "base":10
+                                            "__class__":"HdlOp",
+                                            "ops":[
+                                                "DW",
+                                                {
+                                                    "__class__":"HdlValueInt",
+                                                    "val":"0",
+                                                    "bits":1,
+                                                    "base":2
+                                                }
+                                            ],
+                                            "fn":"REPL_CONCAT"
                                         },
                                         "dst":"qout_r",
                                         "is_blocking":false
